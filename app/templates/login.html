@@ -1,1 +1,173 @@
-login Page
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>OLX Pro Login</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("https://images.unsplash.com/photo-1556740738-b6a63e27c4df");
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* LOGIN CARD */
+
+        .login-container {
+            width: 380px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease;
+        }
+
+        /* TITLE */
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* INPUT GROUP */
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 0;
+            top: 12px;
+            color: #999;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        /* FLOATING LABEL */
+
+        .input-group input:focus+label,
+        .input-group input:valid+label {
+            top: -10px;
+            font-size: 12px;
+            color: #667eea;
+        }
+
+        /* BUTTON */
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* LINKS */
+
+        .links {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: #667eea;
+            font-size: 14px;
+        }
+
+        /* ANIMATION */
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h2>OLX Pro Login</h2>
+
+        <form id="loginForm">
+
+            <div class="input-group">
+                <input type="email" required>
+                <label>Email Address</label>
+            </div>
+
+            <div class="input-group">
+                <input type="password" required>
+                <label>Password</label>
+            </div>
+
+            <button class="login-btn">Login</button>
+
+            <div class="links">
+                <p>Don't have an account? <a href="#">Register</a></p>
+            </div>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+
+            e.preventDefault()
+
+            alert("Login Successful!")
+
+        })
+
+    </script>
+
+</body>
+
+</html>
