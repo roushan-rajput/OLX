@@ -1,1 +1,182 @@
-Registration Page
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>OLX Pro Register</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f");
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* CARD */
+
+        .register-container {
+            width: 400px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            animation: slideUp 1s ease;
+        }
+
+        /* TITLE */
+
+        .register-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* INPUT */
+
+        .input-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 0;
+            top: 12px;
+            font-size: 14px;
+            color: #999;
+            transition: 0.3s;
+        }
+
+        /* FLOAT LABEL */
+
+        .input-group input:focus+label,
+        .input-group input:valid+label {
+            top: -10px;
+            font-size: 12px;
+            color: #667eea;
+        }
+
+        /* BUTTON */
+
+        .register-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .register-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* LINK */
+
+        .login-link {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            text-decoration: none;
+            color: #667eea;
+        }
+
+        /* ANIMATION */
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="register-container">
+
+        <h2>Create Account</h2>
+
+        <form id="registerForm">
+
+            <div class="input-group">
+                <input type="text" required>
+                <label>Full Name</label>
+            </div>
+
+            <div class="input-group">
+                <input type="tel" required>
+                <label>Mobile Number</label>
+            </div>
+
+            <div class="input-group">
+                <input type="email" required>
+                <label>Email Address</label>
+            </div>
+
+            <div class="input-group">
+                <input type="text" required>
+                <label>City</label>
+            </div>
+
+            <button class="register-btn">Register</button>
+
+            <div class="login-link">
+                Already have an account? <a href="{% url 'login' %}">Login</a>
+            </div>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        document.getElementById("registerForm").addEventListener("submit", function (e) {
+
+            e.preventDefault()
+
+            alert("Registration Successful!")
+
+        })
+
+    </script>
+
+</body>
+
+</html>
