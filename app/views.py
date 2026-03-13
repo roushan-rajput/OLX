@@ -9,3 +9,6 @@ def login(request):
 
 def Register(request):
     return render(request, 'Register.html')
+
+def postyouradd(request):
+    return render(request, 'postyouradd.html')

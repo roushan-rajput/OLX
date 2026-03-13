@@ -48,7 +48,7 @@
 
         .input-group {
             position: relative;
-            margin-bottom: 22px;
+            margin-bottom: 2px;
         }
 
         .input-group input {
@@ -136,7 +136,7 @@
 
             <div class="input-group">
                 <input type="text" required>
-                <label>Full Name</label>
+                <label>Owner Name</label>
             </div>
 
             <div class="input-group">
@@ -154,26 +154,36 @@
                 <label>City</label>
             </div>
 
-            <button class="register-btn">Register</button>
-
-            <div class="login-link">
-                Already have an account? <a href="{% url 'login' %}">Login</a>
+            <div class="input-group">
+                <input type="text" required>
+                <label>Product name</label>
             </div>
 
+            <div class="input-group">
+                <input type="text" required>
+                <label>Location</label>
+            </div>
+
+            <div class="input-group">
+                <input type="text" required>
+                <label>Expected Price</label>
+            </div>
+
+            <div class="input-group">
+                <input type="text" required>
+                <label>Any Issue In Product</label>
+            </div>
+
+            <div class="input-group">
+                <input type="text" required>
+                <label>Selling Reason</label>
+            </div>
+
+            <button class="register-btn">Post Add</button>
         </form>
     </div>
 
-    <script>
-
-        document.getElementById("registerForm").addEventListener("submit", function (e) {
-
-            e.preventDefault()
-
-            alert("Registration Successful!")
-
-        })
-
-    </script>
+    
 
 </body>
 
