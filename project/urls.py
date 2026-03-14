@@ -25,4 +25,7 @@ urlpatterns = [
     path('Register/', views.Register, name='Register'),
     path('reg_data/', views.reg_data, name='reg_data'),
     path('postyouradd/', views.postyouradd, name='postyouradd'),
+    path('forgetpage/', views.forgetpage, name='forgetpage'),
+    path('send_otp/', views.send_otp, name='send_otp'),
+    path('verify_otp/', views.verify_otp, name='verify_otp'),
 ]

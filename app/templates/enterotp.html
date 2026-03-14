@@ -132,46 +132,20 @@
 
     <div class="login-container">
 
-        <h2>OLX Pro Login</h2>
-
-        <form action="" method="POST" id="loginForm">
+        <h2>OTP has sent on your Email!</h2>
+        
+        <h4>Enter Your OTP</h4>
+        <form action="{% url 'verify_otp' %}" method="POST" id="loginForm">
             {% csrf_token %}
+            {{msg}}
             <div class="input-group">
-                <input type="email" id="email" placeholder="Email address" name="email" required>
+                <input type="text" id="otp" placeholder="OTP Enter here!" name="otp" required>
             </div>
-            <div class="input-group">
-                <input type="text" id="password" placeholder="Password" name="pass" required>
-            </div>
-            <button type="submit" class="login-btn">Login</button>
+            
+            <button type="submit" class="login-btn">Submit</button>
 
-            <div class="links">
-                <p> <a href="{% url 'forgetpage' %}">Forget Your Password </a></p>
-            </div>
-            <div class="links">
-                <p>Don't have an account? <a href="{% url 'Register' %}">Register</a></p>
-            </div>
+            
         </form>
-
-        <!-- <form id="loginForm">
-
-            <div class="input-group">
-                <input type="email" required>
-                <label>Email Address</label>
-            </div>
-
-            <div class="input-group">
-                <input type="password" required>
-                <label>Password</label>
-            </div>
-
-            <button class="login-btn">Login</button>
-
-            <div class="links">
-                <p>Don't have an account? <a href="{% url 'Register' %}">Register</a></p>
-            </div>
-
-        </form> -->
-
     </div>
 
 </body>
