@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>OLX Pro Login</title>
@@ -11,7 +12,7 @@
         * {
             margin: 0;
             padding: 0;
-        box-sizing: border-box;
+            box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
 
@@ -133,7 +134,22 @@
 
         <h2>OLX Pro Login</h2>
 
-        <form id="loginForm">
+        <form action="" method="POST" id="loginForm">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email address" name="email" required>
+            </div>
+            <div class="input-group">
+                <input type="text" id="password" placeholder="Password" name="pass" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+
+            <div class="links">
+                <p>Don't have an account? <a href="{% url 'Register' %}">Register</a></p>
+            </div>
+        </form>
+
+        <!-- <form id="loginForm">
 
             <div class="input-group">
                 <input type="email" required>
@@ -151,21 +167,9 @@
                 <p>Don't have an account? <a href="{% url 'Register' %}">Register</a></p>
             </div>
 
-        </form>
+        </form> -->
 
     </div>
-
-    <script>
-
-        document.getElementById("loginForm").addEventListener("submit", function (e) {
-
-            e.preventDefault()
-
-            alert("Login Successful!")
-
-        })
-
-    </script>
 
 </body>
 

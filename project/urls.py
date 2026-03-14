@@ -23,5 +23,6 @@ urlpatterns = [
     path('', views.landing, name='landing'),
     path('login/', views.login, name='login'),
     path('Register/', views.Register, name='Register'),
+    path('reg_data/', views.reg_data, name='reg_data'),
     path('postyouradd/', views.postyouradd, name='postyouradd'),
 ]
