@@ -10,7 +10,7 @@ def landing(request):
     return render(request, 'landing.html')
 
 def login(request):
-    return render(request, 'login.html')
+    return render(request,'login.html')
 
 def reg_data(req):                                       #Registration Data 
     if req.method == 'POST':
@@ -57,16 +57,16 @@ OLX Pro Team
             fail_silently=False
         )
 
-        return render(req, 'userdash.html')
+        return render(req, 'login.html')
 
-    return render(req, 'add_emp.html')
+    return render(req, 'Register.html')
 
 def forgetpage(request):
     return render(request, 'forgetpage.html')
 
 
 
-def send_otp(req):
+def send_otp(req):                          # For sending the OTP for forgetting the Password 
     if req.method == 'POST':
         e = req.POST.get('email')
         req.session['email']=e
@@ -81,19 +81,17 @@ def send_otp(req):
         )
 
         return render(req, 'enterotp.html')
-
     return render(req, 'forgetpage.html')
 
 def enterotp(request):
     return render(request, 'enterotp.html')
 
-def verify_otp(req):
+def verify_otp(req):                     # For Verifying the OTP for forgetting the Password 
     if req.method == 'POST':
         user_otp = int(req.POST.get('otp'))
         # print(user_otp)
         session_otp = req.session.get('classotp')
         print(session_otp)
-
         if user_otp==session_otp:
             print("OTP Correct!")
             return render(req, 'userdash.html')
@@ -104,10 +102,20 @@ def verify_otp(req):
             # return render(req, 'enterotp.html')
     return render(req, 'verify_otp.html')
 
+def resetpass(req):
+    if (req.method=='POST'):
+        p=req.POST.get('Reset_pass')
+        cp=req.POST.get('Reset_cpass')
+        e=req.session['email']
+        print(e)
+
+        print(p,cp)
+        if p==cp:
+            emp_details=Customer.objects.get(email=e)
+            print(emp_details.name)
 
 def Register(request):
     return render(request, 'Register.html')
-
 
 def postyouradd(request):
     return render(request, 'postyouradd.html')
