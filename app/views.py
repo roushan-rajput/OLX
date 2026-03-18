@@ -114,9 +114,24 @@ def resetpass(req):
             emp_details=Customer.objects.get(email=e)
             print(emp_details.name)
 
+def logindata(req):
+    if req.method == 'POST':
+        e = req.POST.get('email')
+        p = req.POST.get('pass')
+
+        if e == 'roushanrajput12362@gmail.com' and p == '12362':
+            return render(req, 'userdash.html')
+        # emp = employee.objects.filter(email=e, Password=p).first()
+        m= Customer.objects.filter(email=e)
+        if m :
+            req.session['emp_email'] = e               #session me save krne ke liye aise hm use krte h 
+            return render(req, 'empdashboard.html')
+        else:
+            return render(req, 'login.html', {'error': 'Email ya Password galat hai'})
+
 def Register(request):
     return render(request, 'Register.html')
 
 def postyouradd(request):
     return render(request, 'postyouradd.html')
-
+ 
