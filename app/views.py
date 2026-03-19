@@ -108,7 +108,7 @@ def resetpass(req):
         cp=req.POST.get('Reset_cpass')
         e=req.session['email']
         print(e)
-
+               
         print(p,cp)
         if p==cp:
             emp_details=Customer.objects.get(email=e)
