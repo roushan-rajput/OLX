@@ -131,6 +131,8 @@ def logindata(req):
 
 def Register(request):
     return render(request, 'Register.html')
+def add_product(request):
+    return render(request, 'add_product.html')
 
 def postyouradd(request):
     return render(request, 'postyouradd.html')

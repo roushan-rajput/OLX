@@ -79,7 +79,6 @@
         }
 
         /* BUTTON */
-
         .register-btn {
             width: 100%;
             padding: 12px;
@@ -127,41 +126,14 @@
 </head>
 
 <body>
-
     <div class="register-container">
 
         <h2>Create Account</h2>
-
         <form id="registerForm">
-
-            <div class="input-group">
-                <input type="text" required>
-                <label>Owner Name</label>
-            </div>
-
-            <div class="input-group">
-                <input type="tel" required>
-                <label>Mobile Number</label>
-            </div>
-
-            <div class="input-group">
-                <input type="email" required>
-                <label>Email Address</label>
-            </div>
-
-            <div class="input-group">
-                <input type="text" required>
-                <label>City</label>
-            </div>
-
+        
             <div class="input-group">
                 <input type="text" required>
                 <label>Product name</label>
-            </div>
-
-            <div class="input-group">
-                <input type="text" required>
-                <label>Location</label>
             </div>
 
             <div class="input-group">
@@ -177,6 +149,12 @@
             <div class="input-group">
                 <input type="text" required>
                 <label>Selling Reason</label>
+            </div>
+
+            <div class="input-group">
+                {% comment %} <label>Upload Image:</label> {% endcomment %}
+
+                <input type="file" required>
             </div>
 
             <button class="register-btn">Post Add</button>
