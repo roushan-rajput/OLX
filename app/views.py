@@ -23,7 +23,7 @@ def reg_data(req):                                       #Registration Data
 
         # Duplicate check
         if Customer.objects.filter(email=e).exists() or Customer.objects.filter(password=p).exists():
-            msg = 'E-mail ya Employee ID already exists!'
+            msg = 'E-mail already exists!'
             return render(req, 'Register.html', {'msg': msg})
 
         # Save to database
@@ -79,7 +79,6 @@ def send_otp(req):                          # For sending the OTP for forgetting
             'roushanrajput12362@gmail.com',
             [e]
         )
-
         return render(req, 'enterotp.html')
     return render(req, 'forgetpage.html')
 
