@@ -129,32 +129,33 @@
     <div class="register-container">
 
         <h2>Create Account</h2>
-        <form id="registerForm">
+        <form id="registerForm" action="{% url 'add_pro' %}" method="POST">
+        {% csrf_token %}
         
             <div class="input-group">
-                <input type="text" required>
+                <input type="text" name="productname" required>
                 <label>Product name</label>
             </div>
 
             <div class="input-group">
-                <input type="text" required>
+                <input type="text"  name="productprice" required>
                 <label>Expected Price</label>
             </div>
 
             <div class="input-group">
-                <input type="text" required>
+                <input type="text"  name="productissue" >
                 <label>Any Issue In Product</label>
             </div>
 
             <div class="input-group">
-                <input type="text" required>
+                <input type="text" name="productreason" required>
                 <label>Selling Reason</label>
             </div>
 
             <div class="input-group">
                 {% comment %} <label>Upload Image:</label> {% endcomment %}
 
-                <input type="file" required>
+                <input type="file" name="productimg" required>
             </div>
 
             <button class="register-btn">Post Add</button>

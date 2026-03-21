@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Customer
+from .models import Customer,Product
 # from .models import passwordrest
 import random
 from django.core.mail import send_mail
@@ -102,7 +102,7 @@ def verify_otp(req):                     # For Verifying the OTP for forgetting 
             # return render(req, 'enterotp.html')
     return render(req, 'verify_otp.html')
 
-def resetpass(req):
+def resetpass(req):                          # For reset the password
     if (req.method=='POST'):
         p=req.POST.get('Reset_pass')
         cp=req.POST.get('Reset_cpass')
@@ -114,7 +114,7 @@ def resetpass(req):
             emp_details=Customer.objects.get(email=e)
             print(emp_details.name)
 
-def logindata(req):
+def logindata(req):                         #for Login the Data
     if req.method == 'POST':
         e = req.POST.get('email')
         p = req.POST.get('pass')
@@ -131,8 +131,30 @@ def logindata(req):
 
 def Register(request):
     return render(request, 'Register.html')
+
+
 def add_product(request):
     return render(request, 'add_product.html')
+
+def add_pro(req):                                      #For Add the Product 
+    if req.method == 'POST':
+        pn = req.POST.get('productname')
+        pp = req.POST.get('productprice')
+        pi = req.POST.get('productissue')
+        pr = req.POST.get('productreason')
+        pim = req.POST.get('productimg')
+
+        # Save to database
+        Product.objects.create(
+        productname=pn,
+        productprice=pp,
+        productissue=pi,
+        productreason=pr,
+        productimg=pim,
+        )
+        print(pn,pp,pi,pr,pim)
+        return render(req, 'userdash.html')
+    return render(req, 'userdash.html')
 
 def postyouradd(request):
     return render(request, 'postyouradd.html')
