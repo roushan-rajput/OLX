@@ -32,5 +32,7 @@ urlpatterns = [
     path('logindata/', views.logindata, name='logindata'),
     path('add_product/', views.add_product, name='add_product'),
     path('add_pro/', views.add_pro, name='add_pro'),
+    path('logout/', views.logout, name='logout'),
+    
 
 ]

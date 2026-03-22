@@ -65,8 +65,7 @@ def forgetpage(request):
     return render(request, 'forgetpage.html')
 
 
-
-def send_otp(req):                          # For sending the OTP for forgetting the Password 
+def send_otp(req):                                     # For sending the OTP for forgetting the Password 
     if req.method == 'POST':
         e = req.POST.get('email')
         req.session['email']=e
@@ -85,7 +84,7 @@ def send_otp(req):                          # For sending the OTP for forgetting
 def enterotp(request):
     return render(request, 'enterotp.html')
 
-def verify_otp(req):                     # For Verifying the OTP for forgetting the Password 
+def verify_otp(req):                                   # For Verifying the OTP for forgetting the Password 
     if req.method == 'POST':
         user_otp = int(req.POST.get('otp'))
         # print(user_otp)
@@ -101,7 +100,7 @@ def verify_otp(req):                     # For Verifying the OTP for forgetting 
             # return render(req, 'enterotp.html')
     return render(req, 'verify_otp.html')
 
-def resetpass(req):                          # For reset the password
+def resetpass(req):                                      # For reset the password
     if (req.method=='POST'):
         p=req.POST.get('Reset_pass')
         cp=req.POST.get('Reset_cpass')
@@ -113,7 +112,7 @@ def resetpass(req):                          # For reset the password
             emp_details=Customer.objects.get(email=e)
             print(emp_details.name)
 
-def logindata(req):                         #for Login the Data
+def logindata(req):                                     #for Login the Data
     if req.method == 'POST':
         e = req.POST.get('email')
         p = req.POST.get('pass')
@@ -123,7 +122,7 @@ def logindata(req):                         #for Login the Data
         # emp = employee.objects.filter(email=e, Password=p).first()
         m= Customer.objects.filter(email=e)
         if m :
-            req.session['emp_email'] = e               #session me save krne ke liye aise hm use krte h 
+            req.session['emp_email'] = e                #session me save krne ke liye aise hm use krte h 
             return render(req, 'empdashboard.html')
         else:
             return render(req, 'login.html', {'error': 'Email ya Password galat hai'})
@@ -135,7 +134,7 @@ def Register(request):
 def add_product(request):
     return render(request, 'add_product.html')
 
-def add_pro(req):                                      #For Add the Product 
+def add_pro(req):                                        #For Add the Product 
     if req.method == 'POST':
         pn = req.POST.get('productname')
         pp = req.POST.get('productprice')
@@ -157,4 +156,7 @@ def add_pro(req):                                      #For Add the Product
 
 def postyouradd(request):
     return render(request, 'postyouradd.html')
- 
+
+
+def logout(req):
+    return render(req,'landing.html')
