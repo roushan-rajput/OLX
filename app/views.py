@@ -9,6 +9,9 @@ from django.core.mail import send_mail
 def landing(request):
     return render(request, 'landing.html')
 
+def userdash(request):
+    return render(request, 'userdash.html')
+
 def login(request):
     return render(request,'login.html')
 
@@ -153,6 +156,9 @@ def add_pro(req):                                        #For Add the Product
         print(pn,pp,pi,pr,pim)
         return render(req, 'userdash.html')
     return render(req, 'userdash.html')
+
+def allproduct(request):
+    return render(request, 'allproduct.html')
 
 def postyouradd(request):
     return render(request, 'postyouradd.html')

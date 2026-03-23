@@ -21,6 +21,7 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.landing, name='landing'),
+    path('userdash/', views.userdash, name='userdash'),
     path('login/', views.login, name='login'),
     path('Register/', views.Register, name='Register'),
     path('reg_data/', views.reg_data, name='reg_data'),
@@ -32,6 +33,7 @@ urlpatterns = [
     path('logindata/', views.logindata, name='logindata'),
     path('add_product/', views.add_product, name='add_product'),
     path('add_pro/', views.add_pro, name='add_pro'),
+    path('allproduct/', views.allproduct, name='allproduct'),
     path('logout/', views.logout, name='logout'),
     
 
