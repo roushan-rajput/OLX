@@ -163,6 +163,5 @@ def allproduct(request):
 def postyouradd(request):
     return render(request, 'postyouradd.html')
 
-
 def logout(req):
     return render(req,'landing.html')
