@@ -154,8 +154,10 @@ def add_pro(req):                                        #For Add the Product
         productimg=pim,
         )
         print(pn,pp,pi,pr,pim)
-        return render(req, 'userdash.html')
-    return render(req, 'userdash.html')
+        return render(req, 'allproduct.html')
+    items = Product.objects.all().order_by('-id')
+    return render(req, 'dashboard.html', {'items': items})
+    # return render(req, 'allproduct.html')
 
 def allproduct(request):
     return render(request, 'allproduct.html')
