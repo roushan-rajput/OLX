@@ -161,8 +161,12 @@ def add_pro(req):                                        #For Add the Product
 
 def allproduct(request):
     return render(request, 'allproduct.html')
+
 def chats(request):
     return render(request, 'chats.html')
+
+def profile(request):
+    return render(request, 'profile.html')
 
 def postyouradd(request):
     return render(request, 'postyouradd.html')

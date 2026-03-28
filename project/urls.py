@@ -36,6 +36,7 @@ urlpatterns = [
     path('add_product/', views.add_product, name='add_product'),
     path('add_pro/', views.add_pro, name='add_pro'),
     path('allproduct/', views.allproduct, name='allproduct'),
+    path('profile/', views.profile, name='profile'),
     path('chats/', views.chats, name='chats'),
     path('logout/', views.logout, name='logout'),
 ]
