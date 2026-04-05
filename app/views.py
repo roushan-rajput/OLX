@@ -143,7 +143,7 @@ def add_pro(req):                                        #For Add the Product
         pp = req.POST.get('productprice')
         pi = req.POST.get('productissue')
         pr = req.POST.get('productreason')
-        pim = req.POST.get('productimg')
+        pim = req.FILES.get('productimg')
 
         # Save to database
         Product.objects.create(
@@ -160,7 +160,10 @@ def add_pro(req):                                        #For Add the Product
     # return render(req, 'allproduct.html')
 
 def allproduct(request):
-    return render(request, 'allproduct.html')
+    item=Product.objects.all()
+    print(item)
+
+    return render(request, 'allproduct.html',{'items': item})
 
 def chats(request):
     return render(request, 'chats.html')

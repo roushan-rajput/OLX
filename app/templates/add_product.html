@@ -128,8 +128,8 @@
 <body>
     <div class="register-container">
 
-        <h2>Create Account</h2>
-        <form id="registerForm" action="{% url 'add_pro' %}" method="POST">
+        <h2>Add Product</h2>
+        <form id="registerForm" action="{% url 'add_pro' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         
             <div class="input-group">
