@@ -7,60 +7,129 @@
 
   <style>
     body {
-      font-family: Arial;
+      font-family: 'Segoe UI', Arial;
       background: #f2f4f5;
+      margin: 0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
     }
 
     .container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 25px;
+      padding: 30px;
     }
 
     .card {
       background: white;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.603);
+      transition: all 0.1s ease;
+      transform: scale(1);
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
     }
 
     .card img {
-      width: 100%;
-      height: 180px;
+      width: 70%;
+      height: 250px;
       object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.1);
     }
 
     .content {
-      padding: 10px;
+      padding: 15px;
+      text-align: center;
     }
 
     .price {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
+      color: #2ecc71;
+      margin-bottom: 5px;
     }
 
     .title {
       font-size: 16px;
+      margin-bottom: 10px;
     }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .edit-btn {
+      background: #3498db;
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background: #2980b9;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+
   </style>
 
 </head>
 
 <body>
 
-  <h2 style="text-align:center;">All Products</h2>
+  <h2>All Products</h2>
 
   <div class="container">
 
     {% for item in items %}
     <div class="card">
+
       <img src="{{ item.productimg.url }}" alt="img">
 
       <div class="content">
         <div class="price">₹{{ item.productprice }}</div>
         <div class="title">{{ item.productname }}</div>
+
+        <div class="btn-group">
+          <a href="{% url 'edit_product' item.id %}">
+            <button class="btn edit-btn">Edit</button>
+          </a>
+
+          <a href="{% url 'delete_product' item.id %}" onclick="return confirm('Are you sure you want to delete?')">
+            <button class="btn delete-btn">Delete</button>
+          </a>
+        </div>
+
       </div>
+
     </div>
     {% endfor %}
 

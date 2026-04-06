@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import Customer,Product
 # from .models import passwordrest
 import random
 from django.core.mail import send_mail
 
+  
 
 # Create your views here.
 def landing(request):
@@ -164,6 +165,41 @@ def allproduct(request):
     print(item)
 
     return render(request, 'allproduct.html',{'items': item})
+
+def edit_product(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    return render(request, 'add_product.html', {'data': product})
+
+
+def update_product(request, pk):
+    product = get_object_or_404(Product, id=pk)
+
+    if request.method == "POST":
+        product.productname = request.POST.get('productname')
+        product.productprice = request.POST.get('productprice')
+        product.productissue = request.POST.get('productissue')
+        product.productreason = request.POST.get('productreason')
+
+        # Image update (optional)
+        if request.FILES.get('productimg'):
+            product.productimg = request.FILES.get('productimg')
+
+        product.save()
+
+        return redirect('allproduct')
+    
+def delete_product(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    product.delete()
+    return redirect('allproduct')
+
+# def edit_product(req, pk):
+#     userdata = Product.objects.get(id=pk)
+
+#     return render(req, 'add_product.html', {'data': userdata})
+
+def delete_item(request):
+    return render(request, 'allproduct.html')
 
 def chats(request):
     return render(request, 'chats.html')
