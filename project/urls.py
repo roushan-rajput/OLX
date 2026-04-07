@@ -23,7 +23,7 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.landing, name='landing'),
-    path('userdash/', views.userdash, name='userdash'),
+    path('shkprdash/', views.shkprdash, name='shkprdash'),
     path('login/', views.login, name='login'),
     path('Register/', views.Register, name='Register'),
     path('reg_data/', views.reg_data, name='reg_data'),
@@ -42,6 +42,14 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('chats/', views.chats, name='chats'),
     path('logout/', views.logout, name='logout'),
+
+
+    path('product/', views.product, name='product'),
+    path('chat/', views.chat, name='chat'),
+    path('buy_now/', views.buy_now, name='buy_now'),
+
+    
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

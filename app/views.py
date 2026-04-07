@@ -10,8 +10,8 @@ from django.core.mail import send_mail
 def landing(request):
     return render(request, 'landing.html')
 
-def userdash(request):
-    return render(request, 'userdash.html')
+def shkprdash(request):
+    return render(request, 'shkprdash.html')
 
 def login(request):
     return render(request,'login.html')
@@ -96,7 +96,7 @@ def verify_otp(req):                                   # For Verifying the OTP f
         print(session_otp)
         if user_otp==session_otp:
             print("OTP Correct!")
-            return render(req, 'userdash.html')
+            return render(req, 'shkprdash.html')
         else:
             print("OTP wrong")
             msg = 'Wrong OTP'
@@ -116,24 +116,26 @@ def resetpass(req):                                      # For reset the passwor
             emp_details=Customer.objects.get(email=e)
             print(emp_details.name)
 
-def logindata(req):                                     #for Login the Data
+def logindata(req):
     if req.method == 'POST':
         e = req.POST.get('email')
         p = req.POST.get('pass')
 
+        # 🔹 Step 1: Admin check
         if e == 'roushanrajput12362@gmail.com' and p == '12362':
+            return render(req, 'shkprdash.html')
+
+        # 🔹 Step 2: Database check (email + password BOTH)
+        emp = Customer.objects.filter(email=e, password=p).first()
+
+        if emp:
+            req.session['emp_email'] = e
             return render(req, 'userdash.html')
-        # emp = employee.objects.filter(email=e, Password=p).first()
-        m= Customer.objects.filter(email=e)
-        if m :
-            req.session['emp_email'] = e                #session me save krne ke liye aise hm use krte h 
-            return render(req, 'empdashboard.html')
         else:
             return render(req, 'login.html', {'error': 'Email ya Password galat hai'})
 
 def Register(request):
     return render(request, 'Register.html')
-
 
 def add_product(request):
     return render(request, 'add_product.html')
@@ -146,7 +148,6 @@ def add_pro(req):                                        #For Add the Product
         pr = req.POST.get('productreason')
         pim = req.FILES.get('productimg')
 
-        # Save to database
         Product.objects.create(
         productname=pn,
         productprice=pp,
@@ -158,18 +159,15 @@ def add_pro(req):                                        #For Add the Product
         return render(req, 'allproduct.html')
     items = Product.objects.all().order_by('-id')
     return render(req, 'dashboard.html', {'items': items})
-    # return render(req, 'allproduct.html')
 
 def allproduct(request):
     item=Product.objects.all()
     print(item)
-
     return render(request, 'allproduct.html',{'items': item})
 
 def edit_product(request, pk):
     product = get_object_or_404(Product, id=pk)
     return render(request, 'add_product.html', {'data': product})
-
 
 def update_product(request, pk):
     product = get_object_or_404(Product, id=pk)
@@ -185,7 +183,6 @@ def update_product(request, pk):
             product.productimg = request.FILES.get('productimg')
 
         product.save()
-
         return redirect('allproduct')
     
 def delete_product(request, pk):
@@ -193,13 +190,8 @@ def delete_product(request, pk):
     product.delete()
     return redirect('allproduct')
 
-# def edit_product(req, pk):
-#     userdata = Product.objects.get(id=pk)
-
-#     return render(req, 'add_product.html', {'data': userdata})
-
-def delete_item(request):
-    return render(request, 'allproduct.html')
+# def delete_item(request):
+#     return render(request, 'allproduct.html')
 
 def chats(request):
     return render(request, 'chats.html')
@@ -210,5 +202,20 @@ def profile(request):
 def postyouradd(request):
     return render(request, 'postyouradd.html')
 
+
+
+def product(req):
+    products = Product.objects.all()   # jo bhi DB me hai wahi aayega
+
+    return render(req, 'product.html', {
+        'products': products
+    })
+
 def logout(req):
     return render(req,'landing.html')
+
+def buy_now(request):
+    return render(request, 'product.html')
+
+def chat(request):
+    return render(request, 'product.html')
