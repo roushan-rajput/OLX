@@ -67,14 +67,20 @@
         <form action="{% url 'add_pro' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
-            <input type="text" name="productname" placeholder="Product Name" required>
+            <select name="productname" required>
+                <option value="">Select Product</option>
+                <option value="car">Car</option>
+                <option value="house">House</option>
+                <option value="phones">Phones</option>
+                <option value="laptop">Laptop</option>
+            </select>
+
             <input type="text" name="productprice" placeholder="Price" required>
             <input type="text" name="productissue" placeholder="Issue">
-            <input type="text" name="productreason" placeholder="Reason" required>
+            <input type="text" name="productreason" placeholder="Description" required>
             <input type="file" name="productimg" required>
 
             <button>Add Product</button>
-
         </form>
 
         {% else %}

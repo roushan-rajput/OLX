@@ -3,218 +3,210 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Customer Dashboard</title>
+    <title>Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            background: linear-gradient(135deg, #c2e9fb, #a1c4fd);
             font-family: 'Poppins', sans-serif;
         }
 
         /* SIDEBAR */
         .sidebar {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
             padding: 25px;
             border-radius: 20px;
-            color: white;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            animation: slideIn 1s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar:hover {
+            transform: translateY(-5px);
         }
 
         .sidebar h5,
         .sidebar h6 {
-            font-weight: bold;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
 
+        /* FILTER BUTTONS */
         .filter-btn {
             width: 100%;
             margin-bottom: 10px;
-            border-radius: 30px;
+            border-radius: 12px;
             border: none;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 8px;
-            transition: 0.3s;
+            background: #ffffff;
+            padding: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
         .filter-btn:hover {
-            background: white;
-            color: #667eea;
-            transform: scale(1.08);
+            background: linear-gradient(135deg, #6ee7b7, #3b82f6);
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
-        /* PRODUCT CARDS */
+        /* PRICE LINKS */
+        .sidebar a {
+            display: block;
+            margin-bottom: 8px;
+            text-decoration: none;
+            color: #444;
+            padding: 8px 10px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background: #3b82f6;
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 18px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* PRODUCT CARD */
         .product-card {
             border-radius: 20px;
+            background: #fff;
             overflow: hidden;
-            transition: 0.4s;
-            background: white;
-            animation: fadeUp 1s ease;
+            border: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
         }
 
         .product-card:hover {
-            transform: translateY(-12px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
         }
 
         .product-card img {
-            height: 200px;
+            height: 210px;
             width: 100%;
             object-fit: cover;
+            transition: transform 0.4s ease;
         }
 
-        /* CARD BODY */
-        .product-card .p-3 {
-            background: linear-gradient(135deg, #fdfbfb, #ebedee);
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .product-body {
+            padding: 18px;
+        }
+
+        .price {
+            color: #16a34a;
+            font-weight: 600;
+            font-size: 18px;
         }
 
         /* BUTTONS */
-        .btn-buy {
-            background: linear-gradient(135deg, #ff512f, #dd2476);
-            color: white;
-            font-weight: bold;
-            border-radius: 20px;
+        .btn-primary {
+            border-radius: 10px;
             transition: 0.3s;
         }
 
-        .btn-buy:hover {
+        .btn-danger {
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 15px #ff512f;
         }
 
-        .btn-chat {
-            background: linear-gradient(135deg, #36d1dc, #5b86e5);
-            color: white;
-            border-radius: 50%;
-            padding: 6px 10px;
-            transition: 0.3s;
-        }
-
-        .btn-chat:hover {
-            transform: scale(1.2);
-        }
-
-        /* TITLE */
-        h2 {
-            font-weight: bold;
-            animation: fadeIn 1s ease;
-        }
-
-        /* ANIMATIONS */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(-50px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
     </style>
-
 </head>
 
 <body>
 
-    <div class="container my-5">
-        <div class="row g-4">
+    <div class="container my-4">
+        <div class="row">
 
             <!-- SIDEBAR -->
-
             <div class="col-md-3">
                 <div class="sidebar">
+
                     <h5>Filters</h5>
 
-                    ```
-                    <button class="filter-btn">All Products</button>
-                    <button class="filter-btn">Mobiles 📱</button>
-                    <button class="filter-btn">Vehicles 🚗</button>
-                    <button class="filter-btn">Laptops 💻</button>
-                    <button class="filter-btn">Real Estate 🏠</button>
+                    <a href="?category=all" class="filter-btn d-block text-center">All Products</a>
+                    <a href="?category=mobiles" class="filter-btn d-block text-center">Mobiles 📱</a>
+                    <a href="?category=vehicles" class="filter-btn d-block text-center">Vehicles 🚗</a>
+                    <a href="?category=laptops" class="filter-btn d-block text-center">Laptops 💻</a>
+                    <a href="?category=realestate" class="filter-btn d-block text-center">Real Estate 🏠</a>
 
-                    <hr style="background:white;">
+                    <hr>
 
                     <h6>Price Range</h6>
-                    <button class="filter-btn">Below ₹10,000</button>
-                    <button class="filter-btn">₹10,000 - ₹50,000</button>
-                    <button class="filter-btn">Above ₹50,000</button>
 
-                    <hr style="background:white;">
+                    <a href="{% url 'sort' %}?sort=0-999">Below ₹1000</a>
 
-                    <h6>Quick</h6>
-                    <button class="filter-btn"><i class="bi bi-chat"></i> Chats</button>
+                    <a href="{% url 'sort' %}?sort=1000-5000">
+                        ₹1000 - ₹5000
+                    </a>
+
+                    <a href="{% url 'sort' %}?sort=5000plus">
+                        Above ₹5000
+                    </a>
+
                 </div>
-                ```
-
             </div>
 
             <!-- PRODUCTS -->
-
             <div class="col-md-9">
-                <h2 class="text-center mb-4">🔥 All Products</h2>
 
-                ```
+                <div class="top-bar d-flex justify-content-between align-items-center">
+                    <h5>Products</h5>
+                    <input type="text" class="form-control w-50" placeholder="Search...">
+                </div>
+
                 <div class="row g-4">
 
-                    {% for p in products %}
+                    {% if items %}
+                    {% for item in items %}
                     <div class="col-md-4">
 
                         <div class="product-card">
 
-                            {% if p.image %}
-                            <img src="{{ p.image.url }}">
-                            {% else %}
-                            <img src="https://via.placeholder.com/300">
-                            {% endif %}
+                            <img src="{{ item.productimg.url }}" alt="img">
 
-                            <div class="p-3">
-                                <h6>{{ p.name }}</h6>
-                                <p><b>₹{{ p.price }}</b></p>
+                            <div class="product-body">
+                                <div class="price">₹{{ item.productprice }}</div>
+                                <div>{{ item.productname }}</div>
 
-                                <div class="d-flex justify-content-between align-items-center">
-
-                                    <a href="" class="btn btn-chat">
-                                        <i class="bi bi-chat"></i>
-                                    </a>
-
-                                    <a href="" class="btn btn-buy btn-sm px-3">
-                                        Buy Now
-                                    </a>
-
+                                <div class="d-flex justify-content-between mt-3">
+                                    <a href="#" class="btn btn-sm btn-primary">Chat</a>
+                                    <a href="#" class="btn btn-sm btn-danger">Buy</a>
                                 </div>
-
                             </div>
+
                         </div>
 
                     </div>
                     {% endfor %}
+                    {% else %}
+                    <h3>No Products Found 😢</h3>
+                    {% endif %}
 
                 </div>
 

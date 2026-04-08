@@ -2,7 +2,7 @@
 URL configuration for project project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
+    https://docs.djangoproject.com/en/6.0/topics/http/urls/`
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -35,7 +35,9 @@ urlpatterns = [
     path('logindata/', views.logindata, name='logindata'),
     path('add_product/', views.add_product, name='add_product'),
     path('add_pro/', views.add_pro, name='add_pro'),
+    path('product/', views.product, name='product'),
     path('allproduct/', views.allproduct, name='allproduct'),
+   
     path('edit_product/<int:pk>/', views.edit_product, name='edit_product'),
     path('update_product/<int:pk>/', views.update_product, name='update_product'),
     path('delete_product/<int:pk>/', views.delete_product, name='delete_product'),
@@ -44,9 +46,10 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
 
 
-    path('product/', views.product, name='product'),
+    
     path('chat/', views.chat, name='chat'),
     path('buy_now/', views.buy_now, name='buy_now'),
+    path('sort/', views.sort, name='sort'),
 
     
 

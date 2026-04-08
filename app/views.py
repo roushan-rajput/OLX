@@ -160,10 +160,14 @@ def add_pro(req):                                        #For Add the Product
     items = Product.objects.all().order_by('-id')
     return render(req, 'dashboard.html', {'items': items})
 
+def product(request):
+    items = Product.objects.all()
+    return render(request, 'product.html',{'items': items})
+
 def allproduct(request):
-    item=Product.objects.all()
-    print(item)
-    return render(request, 'allproduct.html',{'items': item})
+    items = Product.objects.all()
+    return render(request, 'allproduct.html',{'items': items})
+
 
 def edit_product(request, pk):
     product = get_object_or_404(Product, id=pk)
@@ -190,8 +194,6 @@ def delete_product(request, pk):
     product.delete()
     return redirect('allproduct')
 
-# def delete_item(request):
-#     return render(request, 'allproduct.html')
 
 def chats(request):
     return render(request, 'chats.html')
@@ -203,14 +205,6 @@ def postyouradd(request):
     return render(request, 'postyouradd.html')
 
 
-
-def product(req):
-    products = Product.objects.all()   # jo bhi DB me hai wahi aayega
-
-    return render(req, 'product.html', {
-        'products': products
-    })
-
 def logout(req):
     return render(req,'landing.html')
 
@@ -219,3 +213,28 @@ def buy_now(request):
 
 def chat(request):
     return render(request, 'product.html')
+
+def sort(request):
+    products = Product.objects.all()
+    sort = request.GET.get('sort')
+
+    print("SORT VALUE:", sort)
+
+    # Below ₹1000
+    if sort == '0-999':
+        products = products.filter(productprice__gte=0, productprice__lte=999)
+
+    # ₹1000 - ₹5000
+    elif sort == '1000-5000':
+        products = products.filter(productprice__gte=1000, productprice__lte=5000)
+
+    # Above ₹5000
+    elif sort == '5000plus':
+        products = products.filter(productprice__gte=5000)
+
+    else:
+        print("NO MATCH FOUND ❌")
+
+    print("FINAL COUNT:", products.count())
+
+    return render(request, 'product.html', {'items': products})
