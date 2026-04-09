@@ -214,26 +214,29 @@ def buy_now(request):
 def chat(request):
     return render(request, 'product.html')
 
+
 def sort(request):
     products = Product.objects.all()
     sort = request.GET.get('sort')
 
     print("SORT VALUE:", sort)
 
-    # Below ₹1000
-    if sort == '0-999':
+    # ✅ CATEGORY TYPE FILTER (using productname)
+    if sort in ['phones', 'laptop', 'car', 'house']:
+        products = products.filter(productname__icontains=sort)
+
+    # ✅ PRICE FILTER
+    elif sort == '0-999':
         products = products.filter(productprice__gte=0, productprice__lte=999)
 
-    # ₹1000 - ₹5000
     elif sort == '1000-5000':
         products = products.filter(productprice__gte=1000, productprice__lte=5000)
 
-    # Above ₹5000
     elif sort == '5000plus':
         products = products.filter(productprice__gte=5000)
-  
+
     else:
-        print("NO MATCH FOUND ❌")
+        print("SHOWING ALL PRODUCTS")
 
     print("FINAL COUNT:", products.count())
 

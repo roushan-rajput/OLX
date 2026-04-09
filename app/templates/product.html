@@ -134,7 +134,6 @@
         .btn:hover {
             transform: scale(1.1);
         }
-
     </style>
 </head>
 
@@ -149,11 +148,23 @@
 
                     <h5>Filters</h5>
 
-                    <a href="?category=all" class="filter-btn d-block text-center">All Products</a>
-                    <a href="{% url 'sort' %}?sort=mobile" class="filter-btn d-block text-center">Mobiles 📱</a>
-                    <a href="?category=vehicles" class="filter-btn d-block text-center">Vehicles 🚗</a>
-                    <a href="?category=laptops" class="filter-btn d-block text-center">Laptops 💻</a>
-                    <a href="?category=realestate" class="filter-btn d-block text-center">Real Estate 🏠</a>
+                    <a href="{% url 'sort' %}" class="filter-btn">All Products</a>
+
+                    <a href="{% url 'sort' %}?sort=phones" class="filter-btn">
+                        Mobiles 📱
+                    </a>
+
+                    <a href="{% url 'sort' %}?sort=car" class="filter-btn">
+                        Vehicles 🚗
+                    </a>
+
+                    <a href="{% url 'sort' %}?sort=laptop" class="filter-btn">
+                        Laptops 💻
+                    </a>
+
+                    <a href="{% url 'sort' %}?sort=house" class="filter-btn">
+                        Real Estate 🏠
+                    </a>
 
                     <hr>
 
