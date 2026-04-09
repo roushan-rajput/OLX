@@ -42,8 +42,9 @@ urlpatterns = [
     path('update_product/<int:pk>/', views.update_product, name='update_product'),
     path('delete_product/<int:pk>/', views.delete_product, name='delete_product'),
     path('profile/', views.profile, name='profile'),
-    path('chats/', views.chats, name='chats'),
+    path('chat_list/', views.chat_list, name='chat_list'),
     path('logout/', views.logout, name='logout'),
+    # path('cuschats/', views.cuschats, name='cuschats'),
 
 
     
@@ -51,7 +52,7 @@ urlpatterns = [
     path('buy_now/', views.buy_now, name='buy_now'),
     path('sort/', views.sort, name='sort'),
 
-    
+    path('chat/<str:other_user>/<int:product_id>/', views.chat_page, name='chat_page'),
 
 ]
 if settings.DEBUG:

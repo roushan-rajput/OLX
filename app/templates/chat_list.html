@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #eef2f7;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* MAIN */
+        .main-container {
+            display: flex;
+            height: 95vh;
+        }
+
+        /* LEFT CHAT */
+        .chat-section {
+            width: 65%;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border-radius: 15px;
+            margin: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header {
+            padding: 15px;
+            background: #2563eb;
+            color: white;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* MESSAGE */
+        .message {
+            max-width: 65%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .sent {
+            background: #2563eb;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .received {
+            background: #e2e8f0;
+            align-self: flex-start;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* INPUT */
+        .chat-input {
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        /* RIGHT PANEL */
+        .side-panel {
+            width: 35%;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* CARD */
+        .card-box {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+        }
+
+        .card-box:hover {
+            transform: translateY(-5px);
+        }
+
+        /* IMAGE */
+        .product-img {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- CHAT SECTION -->
+        <div class="chat-section">
+
+            <div class="chat-header">
+                <span>Chat with {{ other_user }}</span>
+                <span style="font-size:12px;">● Online</span>
+            </div>
+
+            <div class="chat-messages" id="chatBox">
+
+                {% for msg in messages %}
+                {% if msg.sender == request.session.email %}
+                <div class="message sent">
+                    {{ msg.message }}
+                </div>
+                {% else %}
+                <div class="message received">
+                    {{ msg.message }}
+                </div>
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+            <!-- INPUT -->
+            <form method="POST" class="chat-input">
+                {% csrf_token %}
+                <input type="text" name="message" placeholder="Type message..." required>
+                <button class="btn btn-primary">Send</button>
+            </form>
+
+        </div>
+
+        <!-- SIDE PANEL -->
+        <div class="side-panel">
+
+            <!-- PRODUCT CARD -->
+            <div class="card-box">
+                <h5>📦 Product Details</h5>
+                <img src="{{ product.productimg.url }}" class="product-img mb-2">
+                <p><b>{{ product.productname }}</b></p>
+                <p>₹{{ product.productprice }}</p>
+                <small>{{ product.productissue }}</small>
+            </div>
+
+            <!-- USER CARD -->
+            <div class="card-box">
+                <h5>👤 User Details</h5>
+
+                {% if other_user_data %}
+                <p><b>Name:</b> {{ other_user_data.name }}</p>
+                <p><b>Email:</b> {{ other_user_data.email }}</p>
+                <p><b>City:</b> {{ other_user_data.city }}</p>
+                <p><b>Contact:</b> {{ other_user_data.contact }}</p>
+                {% else %}
+                <p>No data found</p>
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // AUTO SCROLL
+        const chatBox = document.getElementById("chatBox");
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // 🔥 AUTO REFRESH EVERY 3 SEC (LIVE FEEL)
+        setInterval(() => {
+            location.reload();
+        }, 3000);
+    </script>
+
+</body>
+
+</html>

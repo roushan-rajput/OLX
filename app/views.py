@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Customer,Product
+from .models import Customer,Product,Message
 # from .models import passwordrest
 import random
 from django.core.mail import send_mail
@@ -24,6 +24,7 @@ def reg_data(req):                                       #Registration Data
         ci = req.POST.get('city')
         p = req.POST.get('password')
         cp = req.POST.get('cpassword')
+        role = req.POST.get('role')
 
         # Duplicate check
         if Customer.objects.filter(email=e).exists() or Customer.objects.filter(password=p).exists():
@@ -37,9 +38,10 @@ def reg_data(req):                                       #Registration Data
         contact=co,
         city=ci,
         password=p,
-        cpassword=cp
+        cpassword=cp,
+        role=role
         )
-        print(n,e,co,ci,p,cp)
+        print(n,e,co,ci,p,cp,role)
 
         # Send email
         send_mail(
@@ -121,18 +123,20 @@ def logindata(req):
         e = req.POST.get('email')
         p = req.POST.get('pass')
 
-        # 🔹 Step 1: Admin check
-        if e == 'roushanrajput12362@gmail.com' and p == '12362':
-            return render(req, 'shkprdash.html')
+        user = Customer.objects.filter(email=e, password=p).first()
 
-        # 🔹 Step 2: Database check (email + password BOTH)
-        emp = Customer.objects.filter(email=e, password=p).first()
+        if user:
+            req.session['email'] = user.email
+            req.session['role'] = user.role   # 🔥 ADD THIS
 
-        if emp:
-            req.session['emp_email'] = e
-            return render(req, 'userdash.html')
+            # 🔥 ROLE BASED REDIRECT
+            if user.role == 'seller':
+                return render(req, 'shkprdash.html')   # seller dashboard
+            else:
+                return render(req, 'userdash.html')    # buyer dashboard
+
         else:
-            return render(req, 'login.html', {'error': 'Email ya Password galat hai'})
+            return render(req, 'login.html', {'error': 'Invalid credentials'})
 
 def Register(request):
     return render(request, 'Register.html')
@@ -154,8 +158,10 @@ def add_pro(req):                                        #For Add the Product
         productissue=pi,
         productreason=pr,
         productimg=pim,
+
+        seller_email=req.session.get('email')
         )
-        print(pn,pp,pi,pr,pim)
+        print(pn,pp,pi,pr,pim,)
         return render(req, 'allproduct.html')
     items = Product.objects.all().order_by('-id')
     return render(req, 'dashboard.html', {'items': items})
@@ -165,9 +171,12 @@ def product(request):
     return render(request, 'product.html',{'items': items})
 
 def allproduct(request):
-    items = Product.objects.all()
-    return render(request, 'allproduct.html',{'items': items})
+    if request.session.get('role') == 'seller':
+        items = Product.objects.filter(seller_email=request.session.get('email'))
+    else:
+        items = Product.objects.all()
 
+    return render(request, 'allproduct.html', {'items': items})
 
 def edit_product(request, pk):
     product = get_object_or_404(Product, id=pk)
@@ -195,8 +204,8 @@ def delete_product(request, pk):
     return redirect('allproduct')
 
 
-def chats(request):
-    return render(request, 'chats.html')
+# def chats(request):
+#     return render(request, 'chat.html')
 
 def profile(request):
     return render(request, 'profile.html')
@@ -213,6 +222,9 @@ def buy_now(request):
 
 def chat(request):
     return render(request, 'product.html')
+
+# def cuschats(request):
+#     return render(request, 'cuschats.html')
 
 
 def sort(request):
@@ -241,3 +253,67 @@ def sort(request):
     print("FINAL COUNT:", products.count())
 
     return render(request, 'product.html', {'items': products})
+
+def chat_list(request):
+    user = request.session.get('email')
+
+    # 🔥 sab messages nikalo
+    msgs = Message.objects.filter(sender=user) | Message.objects.filter(receiver=user)
+
+    chat_data = set()
+
+    # 🔥 unique users + product id
+    for msg in msgs:
+        if msg.sender == user:
+            chat_data.add((msg.receiver, msg.product_id))
+        else:
+            chat_data.add((msg.sender, msg.product_id))
+
+    return render(request, 'chat_list.html', {
+        'chat_data': chat_data
+    })
+
+
+
+
+def chat_page(request, other_user, product_id):
+    current_user = request.session.get('email')
+
+    # ❌ Agar login nahi hai
+    if not current_user:
+        return redirect('login')
+
+    # 🔥 PRODUCT FETCH (safe)
+    product = get_object_or_404(Product, id=product_id)
+
+    # 🔥 USER DATA
+    other_user_data = Customer.objects.filter(email=other_user).first()
+
+    # 🔥 MESSAGE SAVE
+    if request.method == "POST":
+        msg = request.POST.get('message')
+
+        if msg:  # empty msg avoid
+            Message.objects.create(
+                sender=current_user,
+                receiver=other_user,
+                message=msg,
+                product_id=product_id
+            )
+
+        return redirect('chat_page', other_user=other_user, product_id=product_id)
+        # 🔥 reload avoid duplicate submit
+
+    # 🔥 FETCH MESSAGES
+    messages = Message.objects.filter(
+        product_id=product_id,
+        sender__in=[current_user, other_user],
+        receiver__in=[current_user, other_user]
+    ).order_by('timestamp')
+
+    return render(request, 'chat.html', {
+        'messages': messages,
+        'other_user': other_user,
+        'product': product,
+        'other_user_data': other_user_data
+    })
