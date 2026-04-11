@@ -16,56 +16,61 @@ def shkprdash(request):
 def login(request):
     return render(request,'login.html')
 
-def reg_data(req):                                       #Registration Data 
+def reg_data(req):
+
     if req.method == 'POST':
-        n = req.POST.get('name')
-        e = req.POST.get('email')
-        co = req.POST.get('contact')
-        ci = req.POST.get('city')
-        p = req.POST.get('password')
-        cp = req.POST.get('cpassword')
+
+        name = req.POST.get('name')
+        email = req.POST.get('email')
+        contact = req.POST.get('contact')
+        city = req.POST.get('city')
+        password = req.POST.get('password')
+        cpassword = req.POST.get('cpassword')
         role = req.POST.get('role')
 
-        # Duplicate check
-        if Customer.objects.filter(email=e).exists() or Customer.objects.filter(password=p).exists():
-            msg = 'E-mail already exists!'
-            return render(req, 'Register.html', {'msg': msg})
+        existing_user = Customer.objects.filter(email=email).first()
 
-        # Save to database
-        Customer.objects.create(
-        name=n,
-        email=e,
-        contact=co,
-        city=ci,
-        password=p,
-        cpassword=cp,
-        role=role
-        )
-        print(n,e,co,ci,p,cp,role)
+        # UPDATE
+        if existing_user:
+            existing_user.name = name
+            existing_user.contact = contact
+            existing_user.city = city
+            existing_user.role = role
 
-        # Send email
-        send_mail(
-        'Company Login Details',
-        f"""Hello {n},
+            if password:
+                if password == cpassword:
+                    existing_user.password = password
+                else:
+                    return render(req, 'register.html', {
+                        'msg': 'Password not match',
+                        'user': existing_user
+                    })
 
-Your OLX Pro account has been created.
+            existing_user.save()
 
-Email: {e}
-Password: {cp}
+            return render(req, 'register.html', {
+                'msg': 'Profile Updated Successfully',
+                'user': existing_user
+            })
 
-Please keep this information safe.
+        # REGISTER
+        else:
+            if password == cpassword:
+                Customer.objects.create(
+                    name=name,
+                    email=email,
+                    contact=contact,
+                    city=city,
+                    password=password,
+                    role=role
+                )
+                return render(req, 'register.html', {'msg': 'Registered Successfully'})
+            else:
+                return render(req, 'register.html', {'msg': 'Password not match'})
 
-Thanks,
-OLX Pro Team
-""",
-            'roushanrajput12362@gmail.com',
-            [e],
-            fail_silently=False
-        )
-
-        return render(req, 'login.html')
-
-    return render(req, 'Register.html')
+    # 🔥 THIS WAS MISSING (VERY IMPORTANT)
+    return render(req, 'register.html')
+    
 
 def forgetpage(request):
     return render(request, 'forgetpage.html')
@@ -137,6 +142,16 @@ def logindata(req):
 
         else:
             return render(req, 'login.html', {'error': 'Invalid credentials'})
+
+def edit_profile(req):
+    email = req.session.get('email')
+
+    if not email:
+        return redirect('login')
+
+    user = Customer.objects.get(email=email)
+
+    return render(req, 'register.html', {'user': user})
 
 def Register(request):
     return render(request, 'Register.html')
@@ -241,8 +256,8 @@ def sort(request):
     elif sort == '0-999':
         products = products.filter(productprice__gte=0, productprice__lte=999)
 
-    elif sort == '1000-5000':
-        products = products.filter(productprice__gte=1000, productprice__lte=5000)
+    elif sort == '1000-4999':
+        products = products.filter(productprice__gte=1000, productprice__lte=4999)
 
     elif sort == '5000plus':
         products = products.filter(productprice__gte=5000)
@@ -254,46 +269,76 @@ def sort(request):
 
     return render(request, 'product.html', {'items': products})
 
-def chat_list(request):
-    user = request.session.get('email')
+def chat_page(request, other_user_email, product_id):
 
-    # 🔥 sab messages nikalo
-    msgs = Message.objects.filter(sender=user) | Message.objects.filter(receiver=user)
-
-    chat_data = set()
-
-    # 🔥 unique users + product id
-    for msg in msgs:
-        if msg.sender == user:
-            chat_data.add((msg.receiver, msg.product_id))
-        else:
-            chat_data.add((msg.sender, msg.product_id))
-
-    return render(request, 'chat_list.html', {
-        'chat_data': chat_data
-    })
-
-
-
-
-def chat_page(request, other_user, product_id):
+    # ✅ Check login
     current_user = request.session.get('email')
-
-    # ❌ Agar login nahi hai
     if not current_user:
         return redirect('login')
 
-    # 🔥 PRODUCT FETCH (safe)
+    # ✅ Get product
     product = get_object_or_404(Product, id=product_id)
 
-    # 🔥 USER DATA
+    # ✅ Allow only seller OR buyer
+    if current_user != product.seller_email and current_user != other_user_email:
+        return redirect('login')  # or show error page
+
+    # ✅ Get other user data
+    other_user = Customer.objects.filter(email=other_user_email).first()
+
+    # =========================                     
+    # ✅ SAVE MESSAGE
+    # =========================
+    if request.method == "POST":
+        msg = request.POST.get('message')
+
+        if msg and msg.strip():
+            Message.objects.create(
+                sender=current_user,
+                receiver=other_user_email,
+                message=msg.strip(),
+                product=product   # 🔥 better FK instead of product_id
+            )
+
+        return redirect('chat_page', other_user_email=other_user_email, product_id=product.id)
+    
+    # =========================
+    # ✅ FETCH MESSAGES
+    # =========================
+    messages = Message.objects.filter(
+        product=product,
+        sender__in=[current_user, other_user_email],
+        receiver__in=[current_user, other_user_email]
+    ).order_by('timestamp')
+
+    # =========================
+    # ✅ RENDER
+    # =========================
+    return render(request, 'chat.html', {
+        'messages': messages,
+        'product': product,
+        'other_user': other_user,
+        'current_user': current_user
+    })
+
+
+def chat_list(request, other_user, product_id):
+    current_user = request.session.get('email')
+
+    # अगर login नहीं
+    if not current_user:
+        return redirect('login')
+
+    product = get_object_or_404(Product, id=product_id)
+
+    # दूसरे user की details
     other_user_data = Customer.objects.filter(email=other_user).first()
 
     # 🔥 MESSAGE SAVE
     if request.method == "POST":
         msg = request.POST.get('message')
 
-        if msg:  # empty msg avoid
+        if msg and msg.strip() != "":
             Message.objects.create(
                 sender=current_user,
                 receiver=other_user,
@@ -302,9 +347,8 @@ def chat_page(request, other_user, product_id):
             )
 
         return redirect('chat_page', other_user=other_user, product_id=product_id)
-        # 🔥 reload avoid duplicate submit
 
-    # 🔥 FETCH MESSAGES
+    # 🔥 FETCH MESSAGES (MAIN FIX)
     messages = Message.objects.filter(
         product_id=product_id,
         sender__in=[current_user, other_user],
@@ -315,5 +359,24 @@ def chat_page(request, other_user, product_id):
         'messages': messages,
         'other_user': other_user,
         'product': product,
-        'other_user_data': other_user_data
+        'other_user_data': other_user_data,
+        'current_user': current_user   # 🔥 IMPORTANT
     })
+
+def userprofile(req):
+    # 🔐 Check if user logged in
+    email = req.session.get('email')
+
+    if not email:
+        return redirect('userdash')   # agar session nahi hai
+
+    try:
+        user = Customer.objects.get(email=email)
+    except Customer.DoesNotExist:
+        return redirect('login')
+
+    return render(req, 'userprofile.html', {'user': user})
+
+def logout_view(req):
+    req.session.flush()
+    return redirect('login')

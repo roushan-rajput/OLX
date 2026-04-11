@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Chat Dashboard</title>
+    <title>Chat</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
             background: #eef2f7;
-            font-family: 'Poppins', sans-serif;
         }
 
-        /* MAIN */
         .main-container {
             display: flex;
             height: 95vh;
         }
 
-        /* LEFT CHAT */
         .chat-section {
             width: 65%;
             display: flex;
@@ -27,7 +23,6 @@
             background: #fff;
             border-radius: 15px;
             margin: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .chat-header {
@@ -35,8 +30,6 @@
             background: #2563eb;
             color: white;
             border-radius: 15px 15px 0 0;
-            display: flex;
-            justify-content: space-between;
         }
 
         .chat-messages {
@@ -47,13 +40,11 @@
             flex-direction: column;
         }
 
-        /* MESSAGE */
         .message {
-            max-width: 65%;
-            padding: 10px 15px;
+            max-width: 60%;
+            padding: 10px;
             border-radius: 15px;
             margin-bottom: 10px;
-            animation: fadeIn 0.3s ease;
         }
 
         .sent {
@@ -67,142 +58,116 @@
             align-self: flex-start;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* INPUT */
         .chat-input {
-            padding: 10px;
             display: flex;
             gap: 10px;
+            padding: 10px;
             border-top: 1px solid #ddd;
         }
 
         .chat-input input {
             flex: 1;
-            border-radius: 20px;
-            border: 1px solid #ddd;
             padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
         }
 
-        /* RIGHT PANEL */
         .side-panel {
             width: 35%;
             margin: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
         }
 
-        /* CARD */
         .card-box {
             background: white;
-            border-radius: 15px;
             padding: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            transition: 0.3s;
+            border-radius: 15px;
+            margin-bottom: 10px;
         }
 
-        .card-box:hover {
-            transform: translateY(-5px);
-        }
-
-        /* IMAGE */
         .product-img {
             width: 100%;
             border-radius: 10px;
         }
-    </style>
 
+        .time {
+            font-size: 10px;
+            opacity: 0.7;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div class="main-container">
+<div class="main-container">
 
-        <!-- CHAT SECTION -->
-        <div class="chat-section">
+    <!-- CHAT -->
+    <div class="chat-section">
 
-            <div class="chat-header">
-                <span>Chat with {{ other_user }}</span>
-                <span style="font-size:12px;">● Online</span>
-            </div>
+        <div class="chat-header">
+            Chat with {{ other_user }}
+        </div>
 
-            <div class="chat-messages" id="chatBox">
+        <div class="chat-messages" id="chatBox">
 
-                {% for msg in messages %}
-                {% if msg.sender == request.session.email %}
-                <div class="message sent">
-                    {{ msg.message }}
-                </div>
+            {% for msg in messages %}
+                {% if msg.sender == current_user %}
+                    <div class="message sent">
+                        {{ msg.message }}
+                        <div class="time">{{ msg.timestamp }}</div>
+                    </div>
                 {% else %}
-                <div class="message received">
-                    {{ msg.message }}
-                </div>
+                    <div class="message received">
+                        {{ msg.message }}
+                        <div class="time">{{ msg.timestamp }}</div>
+                    </div>
                 {% endif %}
-                {% endfor %}
-
-            </div>
-
-            <!-- INPUT -->
-            <form method="POST" class="chat-input">
-                {% csrf_token %}
-                <input type="text" name="message" placeholder="Type message..." required>
-                <button class="btn btn-primary">Send</button>
-            </form>
+            {% empty %}
+                <p>No messages yet</p>
+            {% endfor %}
 
         </div>
 
-        <!-- SIDE PANEL -->
-        <div class="side-panel">
+        <form method="POST" class="chat-input">
+            {% csrf_token %}
+            <input type="text" name="message" placeholder="Type message..." required>
+            <button class="btn btn-primary">Send</button>
+        </form>
 
-            <!-- PRODUCT CARD -->
-            <div class="card-box">
-                <h5>📦 Product Details</h5>
-                <img src="{{ product.productimg.url }}" class="product-img mb-2">
-                <p><b>{{ product.productname }}</b></p>
-                <p>₹{{ product.productprice }}</p>
-                <small>{{ product.productissue }}</small>
-            </div>
+    </div>
 
-            <!-- USER CARD -->
-            <div class="card-box">
-                <h5>👤 User Details</h5>
+    <!-- SIDE -->
+    <div class="side-panel">
 
-                {% if other_user_data %}
-                <p><b>Name:</b> {{ other_user_data.name }}</p>
-                <p><b>Email:</b> {{ other_user_data.email }}</p>
-                <p><b>City:</b> {{ other_user_data.city }}</p>
-                <p><b>Contact:</b> {{ other_user_data.contact }}</p>
-                {% else %}
-                <p>No data found</p>
-                {% endif %}
-            </div>
+        <div class="card-box">
+            <h5>📦 Product</h5>
+            <img src="{{ product.productimg.url }}" class="product-img">
+            <p><b>{{ product.productname }}</b></p>
+            <p>₹{{ product.productprice }}</p>
+        </div>
+
+        <div class="card-box">
+            <h5>👤 User</h5>
+
+            {% if other_user_data %}
+                <p>{{ other_user_data.name }}</p>
+                <p>{{ other_user_data.email }}</p>
+                <p>{{ other_user_data.city }}</p>
+                <p>{{ other_user_data.contact }}</p>
+            {% endif %}
 
         </div>
 
     </div>
 
-    <script>
-        // AUTO SCROLL
-        const chatBox = document.getElementById("chatBox");
-        chatBox.scrollTop = chatBox.scrollHeight;
+</div>
 
-        // 🔥 AUTO REFRESH EVERY 3 SEC (LIVE FEEL)
-        setInterval(() => {
-            location.reload();
-        }, 3000);
-    </script>
+<script>
+    // auto scroll
+    const chatBox = document.getElementById("chatBox");
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+  
+</script>
 
 </body>
-
 </html>

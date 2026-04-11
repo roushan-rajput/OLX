@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title>OLX Pro Register</title>
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
@@ -21,35 +19,33 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f");
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+            url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f");
             background-size: cover;
-            background-position: center;
         }
-
-        /* CARD */
 
         .register-container {
             width: 400px;
             background: white;
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            animation: slideUp 1s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
 
-        /* TITLE */
-
-        .register-container h2 {
+        h2 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        /* INPUT */
+        .msg {
+            text-align: center;
+            color: green;
+            margin-bottom: 10px;
+        }
 
         .input-group {
             position: relative;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
 
         .input-group input {
@@ -58,28 +54,30 @@
             border: none;
             border-bottom: 2px solid #ccc;
             outline: none;
-            font-size: 15px;
         }
 
         .input-group label {
             position: absolute;
             left: 0;
             top: 12px;
-            font-size: 14px;
             color: #999;
             transition: 0.3s;
         }
 
-        /* FLOAT LABEL */
-
-        .input-group input:focus+label,
-        .input-group input:valid+label {
+        /* FIX FOR PREFILL LABEL */
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label,
+        .active {
             top: -10px;
             font-size: 12px;
             color: #667eea;
         }
 
-        /* BUTTON */
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
 
         .register-btn {
             width: 100%;
@@ -87,92 +85,82 @@
             border: none;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            font-size: 16px;
             border-radius: 25px;
             cursor: pointer;
-            transition: 0.3s;
         }
-
-        .register-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        /* LINK */
 
         .login-link {
-            margin-top: 15px;
             text-align: center;
-            font-size: 14px;
-        }
-
-        .login-link a {
-            text-decoration: none;
-            color: #667eea;
-        }
-
-        /* ANIMATION */
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="register-container">
+<div class="register-container">
 
-        <h2>Create Account</h2>
+    <h2>{% if user %}Edit Profile{% else %}Create Account{% endif %}</h2>
 
-        <form action="{% url 'reg_data' %}" method="POST" id="registerForm">
-            {% csrf_token %}
-            {{msg}}
+    <div class="msg">{{ msg }}</div>
 
-            <div class="input-group">
-                <input type="text" placeholder="Enter Name" name="name" required>
-            </div>
+    <form action="{% url 'reg_data' %}" method="POST">
+        {% csrf_token %}
 
-            <div class="input-group">
-                <input type="text" placeholder="Enter Email" name="email" required>
-            </div>
+        <!-- NAME -->
+        <div class="input-group">
+            <input type="text" name="name" value="{{ user.name|default:'' }}" placeholder=" " required>
+            <label class="{% if user.name %}active{% endif %}">Name</label>
+        </div>
 
-            <div class="input-group">
-                <input type="text" placeholder="Enter Contact" name="contact" required>
-            </div>
+        <!-- EMAIL -->
+        <div class="input-group">
+            <input type="text" name="email" value="{{ user.email|default:'' }}" placeholder=" " required>
+            <label class="{% if user.email %}active{% endif %}">Email</label>
+        </div>
 
-            <div class="input-group">
-                <input type="text" placeholder="Enter city" name="city" required>
-            </div>
+        <!-- CONTACT -->
+        <div class="input-group">
+            <input type="text" name="contact" value="{{ user.contact|default:'' }}" placeholder=" " required>
+            <label class="{% if user.contact %}active{% endif %}">Contact</label>
+        </div>
 
-            <div class="input-group">
-                <input type="text" placeholder="Enter Password" name="password" required>
-            </div>
+        <!-- CITY -->
+        <div class="input-group">
+            <input type="text" name="city" value="{{ user.city|default:'' }}" placeholder=" " required>
+            <label class="{% if user.city %}active{% endif %}">City</label>
+        </div>
 
-            <div class="input-group">
-                <input type="text" placeholder="Re-type your Password" name="cpassword" required>
-            </div>
-            <select name="role" class="input-group">
-                <option value="buyer">Buyer</option>
-                <option value="seller">Seller</option>
-            </select>
+        <!-- PASSWORD -->
+        <div class="input-group">
+            <input type="text" name="password" placeholder=" ">
+            <label>Password</label>
+        </div>
 
-            <button class="register-btn">Register</button>
+        <!-- CONFIRM PASSWORD -->
+        <div class="input-group">
+            <input type="text" name="cpassword" placeholder=" ">
+            <label>Confirm Password</label>
+        </div>
 
-            <div class="login-link">
-                Already have an account? <a href="{% url 'login' %}">Login</a>
-            </div>
-            
-        </form>
-    </div>
+        <!-- ROLE -->
+        <select name="role">
+            <option value="buyer" {% if user.role == 'buyer' %}selected{% endif %}>Buyer</option>
+            <option value="seller" {% if user.role == 'seller' %}selected{% endif %}>Seller</option>
+        </select>
+
+        <!-- BUTTON -->
+        <button class="register-btn">
+            {% if user %}Update Profile{% else %}Register{% endif %}
+        </button>
+
+        <div class="login-link">
+            <a href="{% url 'login' %}">Go to Login</a>
+        </div>
+
+    </form>
+
+</div>
+
 </body>
-
 </html>

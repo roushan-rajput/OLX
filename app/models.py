@@ -9,7 +9,7 @@ class Customer(models.Model):
     cpassword = models.CharField(max_length=100)
     role = models.CharField(max_length=20, default='buyer')
 
-
+    
 class Product(models.Model):
     productname = models.CharField(max_length=100)
     productprice = models.CharField(max_length=100)
@@ -23,8 +23,9 @@ class Message(models.Model):
     sender = models.CharField(max_length=100)
     receiver = models.CharField(max_length=100)
     message = models.TextField()
-    product_id = models.IntegerField(null=True)   # 🔥 ADD THIS
+    product_id = models.IntegerField()   # 🔥 ADD THIS
     timestamp = models.DateTimeField(auto_now_add=True)
+   
 
     def __str__(self):
         return self.sender + " -> " + self.receiver
