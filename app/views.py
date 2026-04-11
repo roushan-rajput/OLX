@@ -153,6 +153,20 @@ def edit_profile(req):
 
     return render(req, 'register.html', {'user': user})
 
+def shkpprofile(req):
+    # 🔐 Check if user logged in
+    email = req.session.get('email')
+
+    if not email:
+        return redirect('shkpdash')   # agar session nahi hai
+
+    try:
+        user = Customer.objects.get(email=email)
+    except Customer.DoesNotExist:
+        return redirect('login')
+
+    return render(req, 'shkpprofile.html', {'user': user})
+
 def Register(request):
     return render(request, 'Register.html')
 

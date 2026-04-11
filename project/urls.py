@@ -40,6 +40,7 @@ urlpatterns = [
    
 
    path('edit_profile/', views.edit_profile, name='edit_profile'),
+   path('shkpprofile/', views.shkpprofile, name='shkpprofile'),
 
 
     path('edit_product/<int:pk>/', views.edit_product, name='edit_product'),
@@ -51,7 +52,7 @@ urlpatterns = [
     # path('cuschats/', views.cuschats, name='cuschats'),
 
 
-    
+
     path('chat/', views.chat, name='chat'),
     path('buy_now/', views.buy_now, name='buy_now'),
     path('sort/', views.sort, name='sort'),
