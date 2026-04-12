@@ -157,18 +157,24 @@ def logindata(req):
 
         user = Customer.objects.filter(email=e, password=p).first()
 
-        if user:
+        # 🔥 SUPERADMIN CHECK
+        if e == "superadmin@gmail.com" and p == "superadmin":
+            return render(req, 'superadmin.html')
+
+        # 🔥 DATABASE USER CHECK
+        elif user:
             req.session['email'] = user.email
-            req.session['role'] = user.role   # 🔥 ADD THIS
-
-            # 🔥 ROLE BASED REDIRECT
+            req.session['role'] = user.role
+            
             if user.role == 'seller':
-                return render(req, 'shkprdash.html')   # seller dashboard
+                return render(req, 'shkprdash.html')
             else:
-                return render(req, 'userdash.html')    # buyer dashboard
+                return render(req, 'userdash.html')
 
+        # 🔥 INVALID
         else:
             return render(req, 'login.html', {'error': 'Invalid credentials'})
+
 
 def edit_profile(req):
     email = req.session.get('email')
@@ -532,4 +538,7 @@ def success(request):
     return render(request, 'success.html')
 
 def failed(request):
-    return render(request, 'failed.html')        
+    return render(request, 'failed.html')    
+    
+def superadmin(request):
+    return render(request, 'superadmin.html')        

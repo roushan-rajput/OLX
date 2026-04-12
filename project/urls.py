@@ -74,6 +74,7 @@ urlpatterns = [
     path('payment_status/',views.payment_status,name='payment'), 
     path('success/',views.success,name='success'), 
     path('failed/',views.failed,name='failed'), 
+    path('superadmin/',views.superadmin,name='superadmin'), 
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
