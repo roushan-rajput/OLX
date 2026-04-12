@@ -64,7 +64,7 @@
             transition: 0.3s;
         }
 
-        /* FIX FOR PREFILL LABEL */
+        /* Floating label fix */
         .input-group input:focus + label,
         .input-group input:not(:placeholder-shown) + label,
         .active {
@@ -100,7 +100,8 @@
 
 <div class="register-container">
 
-    <h2>{% if user %}Edit Profile{% else %}Create Account{% endif %}</h2>
+    <!-- ✅ FIXED CONDITION -->
+    <h2>{% if customer %}Edit Profile{% else %}Create Account{% endif %}</h2>
 
     <div class="msg">{{ msg }}</div>
 
@@ -109,49 +110,49 @@
 
         <!-- NAME -->
         <div class="input-group">
-            <input type="text" name="name" value="{{ user.name|default:'' }}" placeholder=" " required>
-            <label class="{% if user.name %}active{% endif %}">Name</label>
+            <input type="text" name="name" value="{{ customer.name|default:'' }}" placeholder=" " required>
+            <label class="{% if customer.name %}active{% endif %}">Name</label>
         </div>
 
         <!-- EMAIL -->
         <div class="input-group">
-            <input type="text" name="email" value="{{ user.email|default:'' }}" placeholder=" " required>
-            <label class="{% if user.email %}active{% endif %}">Email</label>
+            <input type="text" name="email" value="{{ customer.email|default:'' }}" placeholder=" " required>
+            <label class="{% if customer.email %}active{% endif %}">Email</label>
         </div>
 
         <!-- CONTACT -->
         <div class="input-group">
-            <input type="text" name="contact" value="{{ user.contact|default:'' }}" placeholder=" " required>
-            <label class="{% if user.contact %}active{% endif %}">Contact</label>
+            <input type="text" name="contact" value="{{ customer.contact|default:'' }}" placeholder=" " required>
+            <label class="{% if customer.contact %}active{% endif %}">Contact</label>
         </div>
 
         <!-- CITY -->
         <div class="input-group">
-            <input type="text" name="city" value="{{ user.city|default:'' }}" placeholder=" " required>
-            <label class="{% if user.city %}active{% endif %}">City</label>
+            <input type="text" name="city" value="{{ customer.city|default:'' }}" placeholder=" " required>
+            <label class="{% if customer.city %}active{% endif %}">City</label>
         </div>
 
         <!-- PASSWORD -->
         <div class="input-group">
-            <input type="text" name="password" placeholder=" ">
+            <input type="password" name="password" placeholder=" ">
             <label>Password</label>
         </div>
 
         <!-- CONFIRM PASSWORD -->
         <div class="input-group">
-            <input type="text" name="cpassword" placeholder=" ">
+            <input type="password" name="cpassword" placeholder=" ">
             <label>Confirm Password</label>
         </div>
 
         <!-- ROLE -->
         <select name="role">
-            <option value="buyer" {% if user.role == 'buyer' %}selected{% endif %}>Buyer</option>
-            <option value="seller" {% if user.role == 'seller' %}selected{% endif %}>Seller</option>
+            <option value="buyer" {% if customer and customer.role == 'buyer' %}selected{% endif %}>Buyer</option>
+            <option value="seller" {% if customer and customer.role == 'seller' %}selected{% endif %}>Seller</option>
         </select>
 
         <!-- BUTTON -->
         <button class="register-btn">
-            {% if user %}Update Profile{% else %}Register{% endif %}
+            {% if customer %}Update Profile{% else %}Register{% endif %}
         </button>
 
         <div class="login-link">

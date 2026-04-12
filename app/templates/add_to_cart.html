@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Checkout</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            width: 95%;
+            max-width: 1200px;
+            gap: 25px;
+        }
+
+        .card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 0.7s ease;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(30px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        /* PRODUCT */
+        .product img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .product img:hover {
+            transform: scale(1.05);
+        }
+
+        .product h3 {
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 22px;
+            color: #00e676;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* FORM */
+        .form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form input:focus {
+            box-shadow: 0 0 8px #6c63ff;
+        }
+
+        .total {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #ff7a18, #ffb347);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .title {
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        @media(max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT: PRODUCT -->
+    <div class="card product">
+        <h2 class="title">🛍️ Product Details</h2>
+
+        <img src="{{ item.productimg.url }}" alt="product">
+
+        <h3>{{ item.productname }}</h3>
+
+        <p><b>Issue:</b> {{ item.productissue }}</p>
+        <p><b>Description:</b> {{ item.productreason }}</p>
+
+        <div class="price">₹{{ item.productprice }}</div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="card form">
+
+        <h2 class="title">📦 Delivery Details</h2>
+
+        <form action="{% url 'confirm_order' %}" method="POST">
+            {% csrf_token %}
+
+            <input type="hidden" name="product_id" value="{{ item.id }}">
+
+            <input type="text" name="name" value="{{ customer.name|default:'' }}" placeholder="👤 Full Name" required>
+
+            <input type="text" name="contact" value="{{ customer.contact|default:'' }}" placeholder="📱 Contact Number" required>
+
+            <input type="email" name="email" value="{{ customer.email|default:'' }}" placeholder="📧 Email Address" required>
+
+            <input type="text" name="city" value="{{ customer.city|default:'' }}" placeholder="🏙️ City" required>
+
+            <input type="text" name="pincode" placeholder="📍 Pincode">
+
+            <input type="text" name="alt_contact" placeholder="📞 Alternate Contact">
+
+            <div class="total">Total: ₹{{ item.productprice }}</div>
+
+            <button type="submit" class="btn">Proceed to Confirm ➡️</button>
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

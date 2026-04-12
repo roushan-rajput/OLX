@@ -81,85 +81,88 @@
 
 <body>
 
-<div class="container my-4">
-    <div class="row">
+    <div class="container my-4">
+        <div class="row">
 
-        <!-- SIDEBAR -->
-        <div class="col-md-3">
-            <div class="sidebar">
+            <!-- SIDEBAR -->
+            <div class="col-md-3">
+                <div class="sidebar">
 
-                <h5>Filters</h5>
+                    <h5>Filters</h5>
 
-                <a href="{% url 'sort' %}" class="filter-btn">All Products</a>
+                    <a href="{% url 'sort' %}" class="filter-btn">All Products</a>
 
-                <a href="{% url 'sort' %}?sort=phones" class="filter-btn">Mobiles 📱</a>
-                <a href="{% url 'sort' %}?sort=car" class="filter-btn">Vehicles 🚗</a>
-                <a href="{% url 'sort' %}?sort=laptop" class="filter-btn">Laptops 💻</a>
-                <a href="{% url 'sort' %}?sort=house" class="filter-btn">Real Estate 🏠</a>
+                    <a href="{% url 'sort' %}?sort=phones" class="filter-btn">Mobiles 📱</a>
+                    <a href="{% url 'sort' %}?sort=car" class="filter-btn">Vehicles 🚗</a>
+                    <a href="{% url 'sort' %}?sort=laptop" class="filter-btn">Laptops 💻</a>
+                    <a href="{% url 'sort' %}?sort=house" class="filter-btn">Real Estate 🏠</a>
 
-                <hr>
+                    <hr>
 
-                <h6>Price Range</h6>
+                    <h6>Price Range</h6>
 
-                <a href="{% url 'sort' %}?sort=0-999">Below ₹1000</a>
-                <a href="{% url 'sort' %}?sort=1000-5000">₹1000 - ₹5000</a>
-                <a href="{% url 'sort' %}?sort=5000plus">Above ₹5000</a>
+                    <a href="{% url 'sort' %}?sort=0-999">Below ₹1000</a>
+                    <a href="{% url 'sort' %}?sort=1000-5000">₹1000 - ₹5000</a>
+                    <a href="{% url 'sort' %}?sort=5000plus">Above ₹5000</a>
 
-            </div>
-        </div>
-
-        <!-- PRODUCTS -->
-        <div class="col-md-9">
-
-            <div class="top-bar d-flex justify-content-between align-items-center">
-                <h5>Products</h5>
-                <input type="text" class="form-control w-50" placeholder="Search...">
+                </div>
             </div>
 
-            <div class="row g-4">
+            <!-- PRODUCTS -->
+            <div class="col-md-9">
 
-                {% if items %}
-                {% for item in items %}
-                <div class="col-md-4">
+                <div class="top-bar d-flex justify-content-between align-items-center">
+                    <h5>Products</h5>
+                    <input type="text" class="form-control w-50" placeholder="Search...">
+                </div>
 
-                    <div class="product-card">
+                <div class="row g-4">
 
-                        <img src="{{ item.productimg.url }}" alt="img">
+                    {% if items %}
+                    {% for item in items %}
+                    <div class="col-md-4">
 
-                        <div class="product-body">
-                            <div class="price">₹{{ item.productprice }}</div>
-                            <div>{{ item.productname }}</div>
+                        <div class="product-card">
 
-                            <div class="d-flex justify-content-between mt-3">
+                            <img src="{{ item.productimg.url }}" alt="img">
 
-                                {% if item.seller_email %}
-                                <a href="{% url 'chat_page' item.seller_email item.id %}" class="btn btn-sm btn-primary">
-                                    Chat with Seller 💬
-                                </a>
-                                {% else %}
-                                <span style="color:red;">Seller not available</span>
-                                {% endif %}
+                            <div class="product-body">
+                                <div class="price">₹{{ item.productprice }}</div>
+                                <div>{{ item.productname }}</div>
 
-                                <a href="#" class="btn btn-sm btn-danger">Buy</a>
+                                <div class="d-flex justify-content-between mt-3">
+
+                                    {% if item.seller_email %}
+                                    <a href="{% url 'chat_page' item.seller_email item.id %}"
+                                        class="btn btn-sm btn-primary">
+                                        Chat with Seller 💬
+                                    </a>
+                                    {% else %}
+                                    <span style="color:red;">Seller not available</span>
+                                    {% endif %}
+
+                                    <a href="{% url 'checkout' item.id %}" class="btn btn-sm btn-danger">
+                                        Add to Cart
+                                    </a>
+                                </div>
 
                             </div>
 
                         </div>
 
                     </div>
+                    {% endfor %}
+                    {% else %}
+                    <h3>No Products Found 😢</h3>
+                    {% endif %}
 
                 </div>
-                {% endfor %}
-                {% else %}
-                <h3>No Products Found 😢</h3>
-                {% endif %}
 
             </div>
 
         </div>
-
     </div>
-</div>
 
 </body>
+
 </html>

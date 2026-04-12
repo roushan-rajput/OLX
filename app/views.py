@@ -1,8 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Customer,Product,Message
+from .models import Customer,Product,Message,Order
 # from .models import passwordrest
-import random
+from django.http import JsonResponse
+import random 
+from django.conf import settings
+import razorpay
 from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
 
   
 
@@ -18,6 +22,11 @@ def login(request):
 
 def reg_data(req):
 
+    # 👇 session se user identify karo
+    customer = None
+    if req.session.get('email'):
+        customer = Customer.objects.filter(email=req.session['email']).first()
+
     if req.method == 'POST':
 
         name = req.POST.get('name')
@@ -30,8 +39,9 @@ def reg_data(req):
 
         existing_user = Customer.objects.filter(email=email).first()
 
-        # UPDATE
-        if existing_user:
+        # ================= UPDATE =================
+        if existing_user and req.session.get('email') == email:
+
             existing_user.name = name
             existing_user.contact = contact
             existing_user.city = city
@@ -43,20 +53,26 @@ def reg_data(req):
                 else:
                     return render(req, 'register.html', {
                         'msg': 'Password not match',
-                        'user': existing_user
+                        'customer': existing_user
                     })
 
             existing_user.save()
 
             return render(req, 'register.html', {
                 'msg': 'Profile Updated Successfully',
-                'user': existing_user
+                'customer': existing_user
             })
 
-        # REGISTER
+        # ================= REGISTER =================
         else:
+            if existing_user:
+                return render(req, 'register.html', {
+                    'msg': 'Email already exists'
+                })
+
             if password == cpassword:
-                Customer.objects.create(
+
+                new_user = Customer.objects.create(
                     name=name,
                     email=email,
                     contact=contact,
@@ -64,13 +80,24 @@ def reg_data(req):
                     password=password,
                     role=role
                 )
-                return render(req, 'register.html', {'msg': 'Registered Successfully'})
-            else:
-                return render(req, 'register.html', {'msg': 'Password not match'})
 
-    # 🔥 THIS WAS MISSING (VERY IMPORTANT)
-    return render(req, 'register.html')
-    
+                # ✅ session set karo (IMPORTANT)
+                req.session['email'] = new_user.email
+
+                return render(req, 'register.html', {
+                    'msg': 'Registered Successfully',
+                    'customer': new_user
+                })
+
+            else:
+                return render(req, 'register.html', {
+                    'msg': 'Password not match'
+                })
+
+    # ================= GET REQUEST =================
+    return render(req, 'register.html', {
+        'customer': customer
+    })
 
 def forgetpage(request):
     return render(request, 'forgetpage.html')
@@ -394,3 +421,115 @@ def userprofile(req):
 def logout_view(req):
     req.session.flush()
     return redirect('login')
+
+def checkout(request, product_id):
+    item = Product.objects.get(id=product_id)
+
+    customer = None
+
+    # 👇 maan lo user ka email session me save hai
+    if request.session.get('email'):
+        customer = Customer.objects.filter(email=request.session['email']).first()
+
+    return render(request, 'add_to_cart.html', {
+        'item': item,
+        'customer': customer
+    })
+
+def confirm_order(request):
+
+    if request.method == "POST":
+
+        product_id = request.POST.get('product_id')
+        item = Product.objects.get(id=product_id)
+
+        # ✅ amount yahi fix karo
+        amount = int(item.productprice) * 100
+
+        client = razorpay.Client(
+            auth=("rzp_test_SBgtTkwvybHJf0", "gY3kY8r2vLVW4obdtOE95aVC")
+        )
+
+        payment = client.order.create({
+            "amount": amount,
+            "currency": "INR"
+        })
+
+        data = {
+            "product_id": product_id,
+            "name": request.POST.get('name'),
+            "email": request.POST.get('email'),
+            "contact": request.POST.get('contact'),
+            "city": request.POST.get('city'),
+            "pincode": request.POST.get('pincode'),
+            "alt_contact": request.POST.get('alt_contact'),
+        }
+
+        return render(request, 'confirm-order.html', {
+            'item': item,
+            'data': data,
+            'payment': payment   # ✅ VERY IMPORTANT
+        })
+    
+def payment(request):
+
+    if request.method == "POST":
+
+        amount = int(request.POST.get('amount')) * 100  # paisa
+
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY, settings.RAZORPAY_SECRET))
+
+        payment = client.order.create({
+            "amount": amount,
+            "currency": "INR",
+            "payment_capture": 1
+        })
+
+        # 👉 DB me save karo
+        order = Order.objects.create(
+            amount=amount,
+            razorpay_order_id=payment['id']
+        )
+
+        return render(request, 'confirm.html', {
+            'payment': payment,
+            'order': order
+        })
+    
+@csrf_exempt
+def payment_status(request):
+
+    if request.method == "POST":
+
+        client = razorpay.Client(
+            auth=("rzp_test_SBgtTkwvybHJf0", "gY3kY8r2vLVW4obdtOE95aVC")
+        )
+
+        data = {
+            'razorpay_order_id': request.POST.get('razorpay_order_id'),
+            'razorpay_payment_id': request.POST.get('razorpay_payment_id'),
+            'razorpay_signature': request.POST.get('razorpay_signature')
+        }
+
+        try:
+            client.utility.verify_payment_signature(data)
+
+            order = Order.objects.get(razorpay_order_id=data['razorpay_order_id'])
+
+            order.razorpay_payment_id = data['razorpay_payment_id']
+            print('razorpay_signature')
+            order.razorpay_signature = data['razorpay_signature']
+            print('razorpay_signature')
+            order.paid = True
+            order.save()
+
+            return render(request, 'success.html', {'status': True})
+
+        except:
+            return render(request, 'success.html', {'status': False})
+        
+def success(request):
+    return render(request, 'success.html')
+
+def failed(request):
+    return render(request, 'failed.html')        

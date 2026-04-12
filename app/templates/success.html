@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Success</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #00c853, #69f0ae);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .box {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            animation: pop 0.6s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* SVG Tick Animation */
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            margin: auto;
+        }
+
+        .checkmark circle {
+            stroke: #00c853;
+            stroke-width: 4;
+            fill: none;
+            stroke-dasharray: 157;
+            stroke-dashoffset: 157;
+            animation: drawCircle 0.6s ease forwards;
+        }
+
+        .checkmark path {
+            stroke: #00c853;
+            stroke-width: 4;
+            fill: none;
+            stroke-dasharray: 50;
+            stroke-dashoffset: 50;
+            animation: drawTick 0.4s 0.6s ease forwards;
+        }
+
+        @keyframes drawCircle {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes drawTick {
+            to { stroke-dashoffset: 0; }
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        p {
+            color: #777;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: #00c853;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: red;
+            top: -10px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <!-- Animated Tick -->
+    <svg class="checkmark" viewBox="0 0 52 52">
+        <circle cx="26" cy="26" r="25"/>
+        <path d="M14 27 L22 35 L38 18"/>
+    </svg>
+
+    <h2>Payment Successful 🎉</h2>
+    <p>Your order has been placed successfully.</p>
+
+    <a href="/" class="btn">Go to Home</a>
+
+</div>
+
+<script>
+    // 🎉 Confetti Generator
+    for (let i = 0; i < 60; i++) {
+        let confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor =
+            ["#ff0", "#f00", "#0f0", "#00f", "#ff69b4"][Math.floor(Math.random() * 5)];
+
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+
+        document.body.appendChild(confetti);
+    }
+</script>
+
+</body>
+</html>

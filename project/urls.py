@@ -51,8 +51,9 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     # path('cuschats/', views.cuschats, name='cuschats'),
 
-
-
+    # path('add/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
+    # path('cart/', views.get_cart, name='get_cart'),
+    # path('cart-page/', views.get_cart, name='cart_page'),
     path('chat/', views.chat, name='chat'),
     path('buy_now/', views.buy_now, name='buy_now'),
     path('sort/', views.sort, name='sort'),
@@ -61,7 +62,18 @@ urlpatterns = [
     path('userprofile/', views.userprofile, name='userprofile'),
     path('logout_view/', views.logout_view, name='logout_view'),
 
-    path('chat/<str:other_user_email>/<int:product_id>/', views.chat_page, name='chat_page')
+
+
+    # urls.py
+    path('checkout/<int:product_id>/', views.checkout, name='checkout'),
+    path('chat/<str:other_user_email>/<int:product_id>/', views.chat_page, name='chat_page'),
+
+    path('confirm-order/', views.confirm_order, name='confirm_order'),
+    # for payments
+    path('payment/',views.payment,name='payment'),
+    path('payment_status/',views.payment_status,name='payment'), 
+    path('success/',views.success,name='success'), 
+    path('failed/',views.failed,name='failed'), 
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

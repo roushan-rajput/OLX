@@ -29,3 +29,17 @@ class Message(models.Model):
 
     def __str__(self):
         return self.sender + " -> " + self.receiver
+    
+class Order(models.Model):
+    product_id = models.IntegerField()
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    contact = models.CharField(max_length=15)
+    city = models.CharField(max_length=100)
+
+    amount = models.IntegerField()
+    razorpay_order_id = models.CharField(max_length=200)
+    razorpay_payment_id = models.CharField(max_length=200, blank=True, null=True)
+    razorpay_signature = models.CharField(max_length=300, blank=True, null=True)
+
+    paid = models.BooleanField(default=False)
