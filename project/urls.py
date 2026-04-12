@@ -64,7 +64,7 @@ urlpatterns = [
 
 
 
-    # urls.py
+    
     path('checkout/<int:product_id>/', views.checkout, name='checkout'),
     path('chat/<str:other_user_email>/<int:product_id>/', views.chat_page, name='chat_page'),
 
@@ -74,7 +74,18 @@ urlpatterns = [
     path('payment_status/',views.payment_status,name='payment'), 
     path('success/',views.success,name='success'), 
     path('failed/',views.failed,name='failed'), 
+
+
+
+
     path('superadmin/',views.superadmin,name='superadmin'), 
+    path('view_sellers/',views.view_sellers,name='view_sellers'), 
+    path('view_buyers/',views.view_buyers,name='view_buyers'), 
+    path('view_products/',views.view_products,name='view_products'), 
+    path('toggle_block_user/<int:id>/', views.toggle_block_user, name='toggle_block_user'),
+    path('delete_user/<int:id>/', views.delete_user, name='delete_user'),
+    
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

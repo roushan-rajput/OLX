@@ -9,50 +9,109 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
     <style>
-        body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: Poppins;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        body {
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
         }
 
         .box {
-            width: 350px;
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 380px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: fadeUp 1s ease;
         }
 
         h2 {
             text-align: center;
             margin-bottom: 20px;
+            animation: glow 2s infinite alternate;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: none;
+            border-bottom: 2px solid #94a3b8;
+            background: transparent;
+            color: rgb(0, 0, 0);
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        input:focus,
+        select:focus {
+            border-bottom: 2px solid #667eea;
         }
 
         button {
             width: 100%;
-            padding: 10px;
-            background: #667eea;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 25px;
+            transition: 0.4s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #667eea;
         }
 
         .preview {
             width: 100%;
             height: 200px;
             object-fit: cover;
+            border-radius: 10px;
             margin-bottom: 10px;
+            transition: 0.4s;
+        }
+
+        .preview:hover {
+            transform: scale(1.05);
+        }
+
+        /* animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #667eea;
+            }
+
+            to {
+                text-shadow: 0 0 20px #764ba2;
+            }
         }
     </style>
 </head>
@@ -61,7 +120,7 @@
 
     <div class="box">
 
-        <h2>{% if data %}Edit Product{% else %}Add Product{% endif %}</h2>
+        <h2>{% if data %}✏️ Edit Product{% else %}➕ Add Product{% endif %}</h2>
 
         {% if not data %}
         <form action="{% url 'add_pro' %}" method="POST" enctype="multipart/form-data">
@@ -80,7 +139,7 @@
             <input type="text" name="productreason" placeholder="Description" required>
             <input type="file" name="productimg" required>
 
-            <button>Add Product</button>
+            <button>Add Product 🚀</button>
         </form>
 
         {% else %}
@@ -95,7 +154,7 @@
             <input type="text" name="productreason" value="{{data.productreason}}" required>
             <input type="file" name="productimg">
 
-            <button>Update Product</button>
+            <button>Update Product ✨</button>
 
         </form>
         {% endif %}

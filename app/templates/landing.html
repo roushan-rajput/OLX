@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
@@ -13,101 +12,73 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: #f5f7fa;
-        }
-
-        /* NAVBAR */
-        .navbar {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .navbar-brand {
-            color: white !important;
-            transition: 0.3s;
-        }
-
-        .navbar-brand:hover {
-            transform: scale(1.08);
-        }
-
-        /* HERO (LIGHTWEIGHT) */
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=1200');
-            background-size: cover;
-            background-position: center;
-            padding: 110px 0;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
             color: white;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero {
+            padding: 120px 0;
             text-align: center;
             animation: fadeIn 1.5s ease;
         }
 
         .hero h1 {
-            font-size: 48px;
-            animation: floatText 3s infinite;
+            font-size: 55px;
+            animation: float 3s infinite;
         }
 
-        /* BUTTON */
         .btn-main {
             background: linear-gradient(135deg, #ff7a18, #ffb347);
             border-radius: 30px;
-            padding: 10px 25px;
-            transition: 0.3s;
+            padding: 12px 30px;
+            transition: .3s;
         }
 
         .btn-main:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px #ff7a18;
+            transform: scale(1.15);
+            box-shadow: 0 0 20px #ff7a18;
         }
 
-        /* CATEGORY */
-        .category-card {
-            background: white;
-            border-radius: 15px;
+        .card-custom {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             padding: 25px;
-            text-align: center;
-            transition: 0.3s;
+            transition: .4s;
         }
 
-        .category-card:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        .card-custom:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .icon {
-            font-size: 38px;
-            color: #667eea;
+            font-size: 40px;
             animation: bounce 2s infinite;
         }
 
-        /* FEATURES */
-        .features {
-            background: white;
-            padding: 70px 0;
+        .section {
+            padding: 80px 0;
         }
 
-        .features div:hover {
-            transform: translateY(-8px);
-        }
-
-        /* CTA */
-        .cta-box {
+        .cta {
             background: linear-gradient(135deg, #ff7a18, #ffb347);
-            padding: 40px;
-            border-radius: 15px;
-            color: white;
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
             animation: glow 2s infinite alternate;
         }
 
-        /* FOOTER */
         footer {
-            background: #222;
-            color: white;
-            padding: 30px 0;
+            background: #000;
+            padding: 20px;
         }
 
-        /* ANIMATIONS */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -118,13 +89,15 @@
             }
         }
 
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 8px #ff7a18;
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
             }
 
-            to {
-                box-shadow: 0 0 20px #ffb347;
+            50% {
+                transform: translateY(-15px);
             }
         }
 
@@ -136,133 +109,164 @@
             }
 
             50% {
-                transform: translateY(-6px);
-            }
-        }
-
-        @keyframes floatText {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
                 transform: translateY(-10px);
             }
         }
-    </style>
 
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px #ff7a18;
+            }
+
+            to {
+                box-shadow: 0 0 30px #ffb347;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
     <!-- NAVBAR -->
-
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg p-3">
         <div class="container">
-            <a class="navbar-brand" href="#">OLX Pro</a>
-            <div>
-                <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
-            </div>
+            <a class="navbar-brand text-white fw-bold" href="#">OLX Pro</a>
+            <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
         </div>
     </nav>
 
     <!-- HERO -->
-
     <section class="hero">
         <div class="container">
-            <h1>Buy & Sell Anything Near You</h1>
-            <p class="mt-3 mb-4">India's Most Trusted Marketplace Platform</p>
-            <a href="/products/" class="btn btn-main btn-lg">Browse Products</a>
+            <h1>Buy & Sell Anything Near You 🚀</h1>
+            <p class="mt-3">India's Most Trusted Marketplace Platform</p>
+            <a href="/products/" class="btn btn-main mt-3">Browse Products</a>
         </div>
     </section>
 
     <!-- CATEGORIES -->
-
-    <div class="container my-5">
-        <div class="text-center mb-5">
-            <h2>Popular Categories</h2>
-            <p class="text-muted">Explore top trending categories</p>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="category-card">
-                    <div class="icon"><i class="bi bi-phone"></i></div>
-                    <h6>Mobiles</h6>
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center mb-5">Categories</h2>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="card-custom text-center"><i class="bi bi-phone icon"></i>
+                        <h6>Mobiles</h6>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="category-card">
-                    <div class="icon"><i class="bi bi-car-front"></i></div>
-                    <h6>Vehicles</h6>
+                <div class="col-md-3">
+                    <div class="card-custom text-center"><i class="bi bi-car-front icon"></i>
+                        <h6>Vehicles</h6>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="category-card">
-                    <div class="icon"><i class="bi bi-house-door"></i></div>
-                    <h6>Real Estate</h6>
+                <div class="col-md-3">
+                    <div class="card-custom text-center"><i class="bi bi-house icon"></i>
+                        <h6>Real Estate</h6>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="category-card">
-                    <div class="icon"><i class="bi bi-laptop"></i></div>
-                    <h6>Laptops</h6>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FEATURES -->
-
-    <section class="features">
-        <div class="container text-center">
-            <h2 class="mb-5">Why Choose OLX Pro?</h2>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <i class="bi bi-shield-check icon"></i>
-                    <h5>Secure Platform</h5>
-                    <p>Advanced security & verified sellers</p>
-                </div>
-
-                <div class="col-md-4">
-                    <i class="bi bi-lightning-charge icon"></i>
-                    <h5>Fast Listing</h5>
-                    <p>Post your ads within seconds</p>
-                </div>
-
-                <div class="col-md-4">
-                    <i class="bi bi-people icon"></i>
-                    <h5>Large Community</h5>
-                    <p>Millions of trusted buyers & sellers</p>
+                <div class="col-md-3">
+                    <div class="card-custom text-center"><i class="bi bi-laptop icon"></i>
+                        <h6>Laptops</h6>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
+    <!-- ABOUT -->
+    <section class="section">
+        <div class="container text-center">
+            <h2>About Us</h2>
+            <p class="mt-3 text-gray-300">OLX Pro is India's fastest growing marketplace where millions of users buy and
+                sell products daily with trust and security.</p>
+        </div>
+    </section>
 
-    <div class="container my-5">
-        <div class="cta-box text-center">
-            <h3>Start Selling Today 🚀</h3>
-            <p>Join thousands of sellers on OLX Pro</p>
-            <div class="btn btn-dark btn-lg">
-                <a href="{% url 'login' %}" style="color:white;text-decoration:none;">Post Your Add</a>
+    <!-- SUCCESS STORY -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center mb-5">Success Stories</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card-custom">
+                        <p>"I sold my phone within 2 hours!"</p>
+                        <h6>- Rahul</h6>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom">
+                        <p>"Best platform for small businesses"</p>
+                        <h6>- Aman</h6>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom">
+                        <p>"Amazing experience buying laptop"</p>
+                        <h6>- Priya</h6>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
+
+    <!-- WHY TRUST US -->
+    <section class="section text-center">
+        <div class="container">
+            <h2>Why Trust Us?</h2>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card-custom"><i class="bi bi-shield-check icon"></i>
+                        <h5>Secure</h5>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom"><i class="bi bi-patch-check icon"></i>
+                        <h5>Verified Users</h5>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom"><i class="bi bi-clock icon"></i>
+                        <h5>Fast Deals</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDEO SECTION -->
+    <section class="section text-center">
+        <div class="container">
+            <h2>Watch How It Works</h2>
+            <div class="mt-4">
+                <iframe width="80%" height="400" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video"
+                    frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section text-center">
+        <div class="container">
+            <h2>Customer Support</h2>
+            <p class="mt-3">📞 +91 9876543210</p>
+            <p>📧 support@olxpro.com</p>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="container my-5">
+        <div class="cta">
+            <h3>Start Selling Today 🚀</h3>
+            <p>Join thousands of sellers</p>
+            <a href="{% url 'login' %}" class="btn btn-dark mt-2">Post Your Add</a>
         </div>
     </div>
 
     <!-- FOOTER -->
-
-    <footer>
-        <div class="container text-center">
-            <p>© 2026 OLX Pro. All rights reserved.</p>
-        </div>
+    <footer class="text-center">
+        <p>© 2026 OLX Pro</p>
     </footer>
+
 </body>
+
 </html>

@@ -1,329 +1,117 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OLX Pro Ultimate Dashboard</title>
+    <title>Shopkeeper Dashboard</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #eef2f3, #dfe9f3);
-            overflow-x: hidden;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
         }
 
-        /* NAVBAR */
-        .navbar {
-            background: linear-gradient(135deg, #4e54c8, #8f94fb);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        .card:hover {
+            transform: scale(1.05);
+            transition: 0.3s;
         }
 
-        .nav-link {
-            transition: 0.4s;
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
         }
 
-        .nav-link:hover {
-            transform: scale(1.15) rotate(2deg);
-            color: #ffd700 !important;
-        }
-
-        /* HERO */
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df');
-            background-size: cover;
-            padding: 130px 0;
-            color: white;
-            text-align: center;
-            animation: fadeIn 2s ease;
-        }
-
-        .hero h1 {
-            font-size: 55px;
-            animation: floatText 3s infinite ease-in-out;
-        }
-
-        /* BUTTON */
-        .btn-main {
-            background: linear-gradient(135deg, #ff7a18, #ffb347);
-            border-radius: 30px;
-            padding: 12px 30px;
-            border: none;
-            transition: 0.4s;
-        }
-
-        .btn-main:hover {
-            transform: scale(1.2);
-            box-shadow: 0 0 20px #ff7a18;
-        }
-
-        /* STATS */
-        .stats-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            transition: 0.4s;
-            animation: fadeUp 1.5s ease;
-        }
-
-        .stats-card:hover {
-            transform: translateY(-15px) scale(1.08) rotate(1deg);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        /* CATEGORY */
-        .category-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            transition: 0.4s;
-        }
-
-        .category-card:hover {
-            transform: translateY(-15px) scale(1.1) rotate(2deg);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .icon {
-            font-size: 45px;
-            color: #4e54c8;
-            animation: bounce 2s infinite;
-        }
-
-        /* FEATURES */
-        .features {
-            background: white;
-            padding: 80px 0;
-        }
-
-        .features div:hover {
-            transform: scale(1.1) translateY(-10px);
-        }
-
-        /* CTA */
-        .cta-box {
-            background: linear-gradient(135deg, #ff7a18, #ffb347);
-            padding: 50px;
-            border-radius: 20px;
-            color: white;
-            animation: glow 2s infinite alternate;
-        }
-
-        /* FOOTER */
-        footer {
-            background: #111;
-            color: white;
-            padding: 30px;
-        }
-
-        /* ANIMATIONS */
         @keyframes fadeIn {
             from {
                 opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(20px);
             }
 
             to {
                 opacity: 1;
                 transform: translateY(0);
-            }
-        }
-
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 10px #ff7a18;
-            }
-
-            to {
-                box-shadow: 0 0 30px #ffb347;
-            }
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes floatText {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-15px);
             }
         }
     </style>
-
 </head>
 
-<body>
+<body class="text-white">
 
     <!-- NAVBAR -->
-
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand text-white fw-bold" href="#">OLX Pro</a>
-
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'shkprdash' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'allproduct' %}">My Products</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'chat_list' %}">Chats</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'shkpprofile' %}">Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                </ul>
-            </div>
+    <nav class="bg-white/10 backdrop-blur-lg p-4 flex justify-between items-center shadow-lg">
+        <h1 class="text-2xl font-bold">🛍️ Seller Panel</h1>
+        <div class="space-x-6">
+            <a href="{% url 'shkprdash' %}" class="hover:text-yellow-400">Home</a>
+            <a href="{% url 'allproduct' %}" class="hover:text-yellow-400">My Products</a>
+            <a href="{% url 'chat_list' %}" class="hover:text-yellow-400">Chats</a>
+            <a href="{% url 'shkpprofile' %}" class="hover:text-yellow-400">Profile</a>
+            <a href="{% url 'logout' %}" class="bg-red-500 px-3 py-1 rounded">Logout</a>
         </div>
     </nav>
 
-    <!-- STATS -->
-
-    <div class="container my-5">
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="stats-card">
-                    <h4>25</h4>
-                    <p>Total Products</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stats-card">
-                    <h4>10</h4>
-                    <p>Active Listings</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stats-card">
-                    <h4>5</h4>
-                    <p>Sold Items</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stats-card">
-                    <h4>12</h4>
-                    <p>New Messages</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- HERO -->
+    <div class="text-center py-10 fade-in">
+        <h2 class="text-4xl font-bold">
+            Welcome {{user.name}} 🚀
+        </h2>
+        <p class="text-gray-300">Manage your products and grow your business</p>
+    </div>
 
-    <section class="hero">
-        <div class="container">
-            <h1>Buy & Sell Anything Near You</h1>
-            <p class="mt-3">India's Trusted Marketplace</p>
-            <a href="{% url 'add_product' %}" class="btn btn-main mt-3">Add Product</a>
+    <!-- STATS -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 px-10">
+        <div class="card bg-blue-600 p-6 rounded-2xl text-center">
+            <h3 class="text-3xl font-bold">25</h3>
+            <p>Total Products</p>
         </div>
-    </section>
-
-    <!-- CATEGORIES -->
-
-    <div class="container my-5">
-        <h2 class="text-center mb-4">Categories</h2>
-        <div class="row g-4">
-
-            <div class="col-md-3">
-                <div class="category-card"><i class="bi bi-phone icon"></i>
-                    <h6>Mobiles</h6>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="category-card"><i class="bi bi-car-front icon"></i>
-                    <h6>Vehicles</h6>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="category-card"><i class="bi bi-house icon"></i>
-                    <h6>Real Estate</h6>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="category-card"><i class="bi bi-laptop icon"></i>
-                    <h6>Laptops</h6>
-                </div>
-            </div>
-
+        <div class="card bg-green-600 p-6 rounded-2xl text-center">
+            <h3 class="text-3xl font-bold">10</h3>
+            <p>Active</p>
+        </div>
+        <div class="card bg-purple-600 p-6 rounded-2xl text-center">
+            <h3 class="text-3xl font-bold">5</h3>
+            <p>Sold</p>
+        </div>
+        <div class="card bg-yellow-500 p-6 rounded-2xl text-center">
+            <h3 class="text-3xl font-bold">12</h3>
+            <p>Messages</p>
         </div>
     </div>
 
-    <!-- FEATURES -->
+    <!-- MAIN ACTION CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 p-10">
 
-    <section class="features text-center">
-        <div class="container">
-            <h2 class="mb-5">Why Choose Us?</h2>
+        <a href="{% url 'add_product' %}" class="card bg-white/10 backdrop-blur-lg rounded-2xl p-6">
+            <h3 class="text-xl font-bold mb-2">➕ Add Product</h3>
+            <p class="text-gray-300">Upload and sell your item</p>
+        </a>
 
-            <div class="row">
-                <div class="col-md-4">
-                    <i class="bi bi-shield-check icon"></i>
-                    <h5>Secure</h5>
-                    <p>Verified sellers</p>
-                </div>
+        <a href="{% url 'allproduct' %}" class="card bg-white/10 backdrop-blur-lg rounded-2xl p-6">
+            <h3 class="text-xl font-bold mb-2">📦 Manage Products</h3>
+            <p class="text-gray-300">Edit or delete your listings</p>
+        </a>
 
-                <div class="col-md-4">
-                    <i class="bi bi-lightning-charge icon"></i>
-                    <h5>Fast</h5>
-                    <p>Quick posting</p>
-                </div>
+        <a href="{% url 'chat_list' %}" class="card bg-white/10 backdrop-blur-lg rounded-2xl p-6">
+            <h3 class="text-xl font-bold mb-2">💬 Customer Chats</h3>
+            <p class="text-gray-300">Talk with buyers</p>
+        </a>
 
-                <div class="col-md-4">
-                    <i class="bi bi-people icon"></i>
-                    <h5>Community</h5>
-                    <p>Millions of users</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
-    <!-- CTA -->
-
-    <div class="container my-5">
-        <div class="cta-box text-center">
-            <h3>Grow Your Business Faster 🚀</h3>
-            <p>Add products and reach thousands of buyers instantly</p>
-            <a class="btn btn-dark mt-2" href="{% url 'add_product' %}">Add Product</a>
+    <!-- ACTIVITY -->
+    <div class="p-10">
+        <h2 class="text-2xl font-bold mb-4">Recent Activity</h2>
+        <div class="bg-white/10 p-6 rounded-2xl space-y-3">
+            <p>🟢 Product uploaded successfully</p>
+            <p>🟡 Buyer sent a message</p>
+            <p>🔵 Product viewed 20 times</p>
         </div>
     </div>
 
     <!-- FOOTER -->
-
-    <footer class="text-center">
-        <p>© 2026 OLX Pro</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="text-center text-gray-400 pb-6">
+        © 2026 Seller Panel
+    </div>
 
 </body>
 

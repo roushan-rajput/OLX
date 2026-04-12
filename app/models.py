@@ -8,7 +8,7 @@ class Customer(models.Model):
     password = models.CharField(max_length=100)
     cpassword = models.CharField(max_length=100)
     role = models.CharField(max_length=20, default='buyer')
-
+    is_blocked = models.BooleanField(default=False)  # 🔥 ADD THIS
     
 class Product(models.Model):
     productname = models.CharField(max_length=100)

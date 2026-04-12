@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View Sellers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card:hover {
+            transform: scale(1.05);
+            transition: 0.3s;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-black p-4 flex justify-between">
+        <h1 class="text-xl font-bold">🛒 Buyers Panel</h1>
+        <a href="/superadmin" class="bg-blue-500 px-4 py-1 rounded">Back</a>
+    </nav>
+
+    <!-- Heading -->
+    <div class="text-center py-8">
+        <h2 class="text-3xl font-bold">All Buyers</h2>
+    </div>
+
+    <!-- Sellers Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-10 pb-10">
+
+        {% for s in buyers %}
+        <div class="card bg-white/10 p-6 rounded-2xl shadow-lg">
+            <h3 class="text-xl font-bold">{{ s.name }}</h3>
+            <p class="text-gray-300">📧 {{ s.email }}</p>
+            <p class="text-green-400 mt-2">Role: {{ s.role }}</p>
+
+            <div class="mt-4 flex justify-between">
+                <a href="/delete_user/{{ s.id }}/" class="btn btn-danger">Delete</a>
+                <a href="/toggle_block_user/{{ s.id }}" class="px-3 py-1 rounded 
+   {% if s.is_blocked %} bg-green-500 {% else %} bg-yellow-500 {% endif %}">
+
+                    {% if s.is_blocked %}
+                    Unblock
+                    {% else %}
+                    Block
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <!-- Empty Case -->
+    {% if Buyers|length == 0 %}
+    <div class="text-center text-gray-400">
+        No Buyers found.
+    </div>
+    {% endif %}
+
+</body>
+
+</html>

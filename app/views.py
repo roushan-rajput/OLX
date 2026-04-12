@@ -17,6 +17,7 @@ def landing(request):
 def shkprdash(request):
     return render(request, 'shkprdash.html')
 
+
 def login(request):
     return render(request,'login.html')
 
@@ -152,29 +153,37 @@ def resetpass(req):                                      # For reset the passwor
 
 def logindata(req):
     if req.method == 'POST':
-        e = req.POST.get('email')
-        p = req.POST.get('pass')
+        e = req.POST.get('email').strip().lower()
+        p = req.POST.get('pass').strip()
 
         user = Customer.objects.filter(email=e, password=p).first()
 
-        # 🔥 SUPERADMIN CHECK
+        # 🔥 SUPERADMIN (always allowed)
         if e == "superadmin@gmail.com" and p == "superadmin":
             return render(req, 'superadmin.html')
 
-        # 🔥 DATABASE USER CHECK
+        # 🔥 DATABASE USER
         elif user:
+
+            # 🚫 BLOCK CHECK (ek hi baar sabke liye)
+            if user.is_blocked:
+                return render(req, 'login.html', {
+                    'error': '🚫 Your account is blocked by admin'
+                })
+
+            # ✅ SESSION
             req.session['email'] = user.email
             req.session['role'] = user.role
-            
-            if user.role == 'seller':
-                return render(req, 'shkprdash.html')
-            else:
-                return render(req, 'userdash.html')
 
-        # 🔥 INVALID
+            # ✅ ROLE BASED REDIRECT
+            if user.role == 'seller':
+                return render(req, 'shkprdash.html', {'user': user})
+            else:
+                return render(req, 'userdash.html', {'user': user})
+
+        # ❌ INVALID
         else:
             return render(req, 'login.html', {'error': 'Invalid credentials'})
-
 
 def edit_profile(req):
     email = req.session.get('email')
@@ -224,9 +233,9 @@ def add_pro(req):                                        #For Add the Product
         seller_email=req.session.get('email')
         )
         print(pn,pp,pi,pr,pim,)
-        return render(req, 'allproduct.html')
+        # return render(req, 'allproduct.html')
     items = Product.objects.all().order_by('-id')
-    return render(req, 'dashboard.html', {'items': items})
+    return render(req, 'allproduct.html', {'items': items})
 
 def product(request):
     items = Product.objects.all()
@@ -287,6 +296,7 @@ def chat(request):
 
 # def cuschats(request):
 #     return render(request, 'cuschats.html')
+
 
 
 def sort(request):
@@ -542,3 +552,35 @@ def failed(request):
     
 def superadmin(request):
     return render(request, 'superadmin.html')        
+    
+def view_sellers(request):
+    sellers = Customer.objects.filter(role='seller')
+    return render(request, 'view_sellers.html', {'sellers': sellers})     
+def view_buyers(request):
+    buyers = Customer.objects.filter(role='buyer')
+    return render(request, 'buyers.html', {'buyers': buyers})     
+def view_products(request):
+    products = Product.objects.all()
+    return render(request, 'view_products.html', {'products': products})
+
+def toggle_block_user(request, id):
+    user = Customer.objects.get(id=id)
+    
+    user.is_blocked = not user.is_blocked   # toggle
+    user.save()
+
+    return redirect('/view_sellers')  # ya buyers page
+
+def delete_user(request, id):
+    try:
+        user = Customer.objects.get(id=id)
+        role = user.role   # pehle role save kar lo
+        user.delete()
+
+        if role == 'seller':
+            return redirect('view_sellers')
+        else:
+            return redirect('view_buyers')
+
+    except Customer.DoesNotExist:
+        return redirect('superadmin')
