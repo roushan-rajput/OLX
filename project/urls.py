@@ -79,6 +79,8 @@ urlpatterns = [
 
 
     path('superadmin/',views.superadmin,name='superadmin'), 
+    path('userdash/',views.userdash,name='userdash'), 
+    path('shkprdash/',views.shkprdash,name='shkprdash'), 
     path('view_sellers/',views.view_sellers,name='view_sellers'), 
     path('view_buyers/',views.view_buyers,name='view_buyers'), 
     path('view_products/',views.view_products,name='view_products'), 

@@ -540,7 +540,6 @@ def payment_status(request):
             order.save()
 
             return render(request, 'success.html', {'status': True})
-
         except:
             return render(request, 'success.html', {'status': False})
         
@@ -552,6 +551,11 @@ def failed(request):
     
 def superadmin(request):
     return render(request, 'superadmin.html')        
+
+def userdash(request):
+    return render(request, 'userdash.html')        
+def shkprdash(request):
+    return render(request, 'shkprdash.html')        
     
 def view_sellers(request):
     sellers = Customer.objects.filter(role='seller')
