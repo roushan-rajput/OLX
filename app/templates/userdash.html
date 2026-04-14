@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -9,46 +8,41 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fdfbfb, #ebedee);
+            background: #f5f7fa;
             overflow-x: hidden;
         }
 
         /* NAVBAR */
         .navbar {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-link {
-            transition: 0.4s;
-        }
-
-        .nav-link:hover {
-            transform: scale(1.15);
-            color: #ffd700 !important;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         /* HERO */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
                 url('https://images.unsplash.com/photo-1607083206869-4c7672e72a8a');
             background-size: cover;
-            padding: 130px 0;
-            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            color: white;
         }
 
         .hero h1 {
-            font-size: 55px;
-            animation: floatText 3s infinite;
+            font-size: 60px;
+            font-weight: 700;
+            animation: fadeUp 1s ease;
         }
 
-        /* SEARCH BAR */
+        /* SEARCH */
         .search-box {
             max-width: 600px;
             margin: auto;
@@ -67,14 +61,14 @@
         /* CARDS */
         .product-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
             transition: 0.4s;
         }
 
         .product-card:hover {
             transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
         .product-card img {
@@ -82,79 +76,73 @@
             object-fit: cover;
         }
 
-        /* ICON ANIMATION */
-        .icon {
-            font-size: 40px;
-            animation: bounce 2s infinite;
+        /* SECTION SPACING */
+        .section {
+            padding: 80px 0;
+        }
+
+        /* STATS */
+        .stats {
+            background: #111;
+            color: white;
+        }
+
+        .stat-box {
+            text-align: center;
+            transition: 0.4s;
+        }
+
+        .stat-box:hover {
+            transform: scale(1.1);
+        }
+
+        /* TESTIMONIAL */
+        .testimonial {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         /* CTA */
-        .cta-box {
-            background: linear-gradient(135deg, #db9494, #ff4b2b);
-            padding: 50px;
+        .cta {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            padding: 60px;
             border-radius: 20px;
-            color: rgb(255, 255, 255);
-            animation: glow 2s infinite alternate;
+            text-align: center;
         }
 
         /* FOOTER */
         footer {
-            background: #000000;
+            background: #000;
             color: white;
             padding: 30px;
         }
 
-        /* ANIMATIONS */
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes glow {
+        /* ANIMATION */
+        @keyframes fadeUp {
             from {
-                box-shadow: 0 0 10px #ff416c;
+                opacity: 0;
+                transform: translateY(50px);
             }
 
             to {
-                box-shadow: 0 0 30px #000000;
-            }
-        }
-
-        @keyframes floatText {
-
-            0%,
-            100% {
+                opacity: 1;
                 transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-15px);
             }
         }
     </style>
-
 </head>
 
 <body>
 
     <!-- NAVBAR -->
-
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand text-white fw-bold" href="#">OLX Pro</a>
+            <a class="navbar-brand fw-bold" href="#">OLX Pro</a>
 
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="menu">
+            <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Browse</a></li>
@@ -168,124 +156,148 @@
     </nav>
 
     <!-- HERO -->
-
     <section class="hero">
-        <div class="container">
-            <h1>Find Best Deals Near You</h1>
-            <p>Buy anything at best price 🔥</p>
+        <div>
+            <h1>Find Best Deals Near You 🔥</h1>
+            <p>Buy & Sell instantly with zero hassle</p>
 
             <div class="search-box">
-                <input type="text" class="form-control" placeholder="Search products...">
-                <button class="btn btn-dark">Search</button>
+                <input type="text" class="form-control" placeholder="Search anything...">
+                <button class="btn btn-danger">Search</button>
             </div>
-
         </div>
     </section>
 
     <!-- PRODUCTS -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center mb-5">Trending Products</h2>
 
-    <div class="container my-5">
-        <h2 class="text-center mb-4">Trending Products</h2>
+            <div class="row g-4">
 
-        <div class="row g-4">
-
-            <div class="container my-5">
-                <h2 class="text-center mb-4">Trending Products</h2>
-
-                <div class="row g-4">
-
-                    <div class="col-md-3">
-                        <a href="?category=phones" class="text-decoration-none text-dark">
-                            <div class="product-card">
-                                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9">
-                                <div class="p-3">
-                                    <h6>iPhone 13</h6>
-                                    <p>₹50,000</p>
-                                    <button class="btn btn-danger w-100">View</button>
-                                </div>
-                            </div>
-                        </a>
+                <div class="col-md-3">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9">
+                        <div class="p-3">
+                            <h6>iPhone 13</h6>
+                            <p>₹50,000</p>
+                            <button class="btn btn-danger w-100">View</button>
+                        </div>
                     </div>
-
-                    <div class="col-md-3">
-                        <a href="?category=car" class="text-decoration-none text-dark">
-                            <div class="product-card">
-                                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70">
-                                <div class="p-3">
-                                    <h6>Car</h6>
-                                    <p>₹3,00,000</p>
-                                    <button class="btn btn-danger w-100">View</button>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-3">
-                        <a href="?category=laptop" class="text-decoration-none text-dark">
-                            <div class="product-card">
-                                <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8">
-                                <div class="p-3">
-                                    <h6>Laptop</h6>
-                                    <p>₹40,000</p>
-                                    <button class="btn btn-danger w-100">View</button>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-3">
-                        <a href="?category=house" class="text-decoration-none text-dark">
-                            <div class="product-card">
-                                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2">
-                                <div class="p-3">
-                                    <h6>House</h6>
-                                    <p>₹20,00,000</p>
-                                    <button class="btn btn-danger w-100">View</button>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
                 </div>
+
+                <div class="col-md-3">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70">
+                        <div class="p-3">
+                            <h6>Car</h6>
+                            <p>₹3,00,000</p>
+                            <button class="btn btn-danger w-100">View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8">
+                        <div class="p-3">
+                            <h6>Laptop</h6>
+                            <p>₹40,000</p>
+                            <button class="btn btn-danger w-100">View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2">
+                        <div class="p-3">
+                            <h6>House</h6>
+                            <p>₹20,00,000</p>
+                            <button class="btn btn-danger w-100">View</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- FEATURES -->
+    <!-- STATS -->
+    <section class="section stats">
+        <div class="container">
+            <div class="row">
 
-    <div class="container text-center my-5">
-        <div class="row">
-            <div class="col-md-4">
-                <i class="bi bi-shield-check icon"></i>
-                <h5>Safe Deals</h5>
-            </div>
+                <div class="col-md-3 stat-box">
+                    <h2>10K+</h2>
+                    <p>Products</p>
+                </div>
 
-            <div class="col-md-4">
-                <i class="bi bi-cash icon"></i>
-                <h5>Best Prices</h5>
-            </div>
+                <div class="col-md-3 stat-box">
+                    <h2>5K+</h2>
+                    <p>Users</p>
+                </div>
 
-            <div class="col-md-4">
-                <i class="bi bi-chat icon"></i>
-                <h5>Direct Chat</h5>
+                <div class="col-md-3 stat-box">
+                    <h2>1K+</h2>
+                    <p>Deals Done</p>
+                </div>
+
+                <div class="col-md-3 stat-box">
+                    <h2>99%</h2>
+                    <p>Happy Clients</p>
+                </div>
+
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- TESTIMONIAL -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center mb-5">What Users Say</h2>
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <div class="testimonial">
+                        <p>"Best platform for buying used items!"</p>
+                        <h6>- Rahul</h6>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="testimonial">
+                        <p>"Very smooth and fast experience."</p>
+                        <h6>- Anjali</h6>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="testimonial">
+                        <p>"Got my dream bike at low price 🔥"</p>
+                        <h6>- Aman</h6>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <!-- CTA -->
-
-    <div class="container my-5">
-        <div class="cta-box text-center">
-            <h3>Start Shopping Now 🛒</h3>
-            <p>Explore thousands of products near you</p>
-            <a class="nav-link" class="btn btn-dark" href="{% url 'product' %}">Browse Product</a>
+    <section class="section">
+        <div class="container">
+            <div class="cta">
+                <h2>Start Shopping Now 🛒</h2>
+                <p>Explore thousands of products near you</p>
+                <a href="{% url 'product' %}" class="btn btn-dark mt-3">Browse Products</a>
+            </div>
         </div>
-    </div>
+    </section>
 
     <!-- FOOTER -->
-
     <footer class="text-center">
-        <p>© 2026 OLX Pro</p>
+        <p>© 2026 OLX Pro | All Rights Reserved</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

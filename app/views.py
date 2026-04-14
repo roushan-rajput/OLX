@@ -272,7 +272,10 @@ def update_product(request, pk):
 def delete_product(request, pk):
     product = get_object_or_404(Product, id=pk)
     product.delete()
-    return redirect('allproduct')
+    return redirect('view_products')
+
+def view_products(request):
+    return redirect(request,'view_products.html')
 
 
 # def chats(request):

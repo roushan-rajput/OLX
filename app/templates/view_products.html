@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>All Products</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         .card:hover {
             transform: scale(1.05);
@@ -16,9 +16,9 @@
 <body class="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
 
     <!-- Navbar -->
-    <nav class="bg-black p-4 flex justify-between">
+    <nav class="bg-black p-4 flex justify-between items-center">
         <h1 class="text-xl font-bold">📦 Products Panel</h1>
-        <!-- <a href="/superadmin" class="bg-blue-500 px-4 py-1 rounded">Back</a> -->
+        <a href="/superadmin" class="bg-blue-500 px-4 py-1 rounded">Back</a>
     </nav>
 
     <!-- Heading -->
@@ -32,8 +32,17 @@
         {% for p in products %}
         <div class="card bg-white/10 p-6 rounded-2xl shadow-lg">
 
-            <img src="{{ p.productimg.url }}" class="w-full h-40 object-cover rounded mb-4">
+            <!-- Image -->
+            {% if p.productimg %}
+                <img src="{{ p.productimg.url }}" 
+                     class="w-full h-40 object-cover rounded mb-4">
+            {% else %}
+                <div class="w-full h-40 bg-gray-700 flex items-center justify-center rounded mb-4">
+                    No Image
+                </div>
+            {% endif %}
 
+            <!-- Details -->
             <h3 class="text-xl font-bold">{{ p.productname }}</h3>
             <p class="text-green-400">₹ {{ p.productprice }}</p>
 
@@ -42,12 +51,21 @@
 
             <p class="text-blue-400 mt-2">Seller: {{ p.seller_email }}</p>
 
+            <!-- Buttons -->
             <div class="mt-4 flex justify-between">
-                <a href="{% url 'delete_product' item.id %}" class="bg-red-500 px-3 py-1 rounded text-white"
-                    onclick="return confirm('Are you sure you want to delete?')">
+
+                <!-- Delete -->
+                <a href="{% url 'delete_product' p.id %}" 
+                   class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-white"
+                   onclick="return confirm('Are you sure you want to delete this product?')">
                     Delete
                 </a>
-                <button class="bg-yellow-500 px-3 py-1 rounded">Block</button>
+
+                <!-- Block (dummy for now) -->
+                <!-- <button class="bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded">
+                    Block
+                </button> -->
+
             </div>
 
         </div>
@@ -57,11 +75,10 @@
 
     <!-- Empty Case -->
     {% if products|length == 0 %}
-    <div class="text-center text-gray-400">
+    <div class="text-center text-gray-400 text-lg mt-10">
         No products found.
     </div>
     {% endif %}
 
 </body>
-
 </html>
