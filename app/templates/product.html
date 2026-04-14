@@ -10,62 +10,88 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #c2e9fb, #a1c4fd);
+            background: linear-gradient(135deg, #e0f2fe, #c7d2fe);
             font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
         }
 
+        /* SIDEBAR */
         .sidebar {
-            background: rgba(255, 255, 255, 0.58);
-            backdrop-filter: blur(10px);
-            padding: 25px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 240px;
+            height: 90vh;
+            padding: 20px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.8s ease;
         }
 
-        .sidebar h5,
-        .sidebar h6 {
+        .sidebar h5 {
             font-weight: 600;
+            margin-bottom: 15px;
         }
 
         .filter-btn {
+            display: block;
             width: 100%;
             margin-bottom: 10px;
-            border-radius: 12px;
-            border: none;
-            background: #ffffff;
-            padding: 12px;
+            padding: 10px;
+            border-radius: 10px;
             text-decoration: none;
             color: #333;
+            transition: 0.3s;
         }
 
-        .sidebar a:hover {
-            background: #3b82f6;
-            color: #fff;
+        .filter-btn:hover {
+            background: #4f46e5;
+            color: white;
+            transform: translateX(5px);
         }
 
+        /* MAIN */
+        .main {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        /* TOP BAR */
         .top-bar {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 18px;
-            border-radius: 18px;
-            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease;
         }
 
+        /* CARD */
         .product-card {
             border-radius: 20px;
-            background: #fff;
             overflow: hidden;
-            border: none;
+            background: white;
+            transition: 0.4s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
         }
 
         .product-card img {
-            height: 210px;
+            height: 200px;
             width: 100%;
             object-fit: cover;
         }
 
         .product-body {
-            padding: 18px;
+            padding: 15px;
         }
 
         .price {
@@ -73,95 +99,126 @@
             font-weight: 600;
         }
 
+        /* BUTTON */
         .btn {
             border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* SEARCH */
+        .search {
+            width: 50%;
+            border-radius: 20px;
+        }
+
+        /* ANIMATIONS */
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container my-4">
-        <div class="row">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
 
-            <!-- SIDEBAR -->
-            <div class="col-md-3">
-                <div class="sidebar">
+        <h5>Filters</h5>
 
-                    <h5>Filters</h5>
+        <a href="{% url 'sort' %}" class="filter-btn">All Products</a>
 
-                    <a href="{% url 'sort' %}" class="filter-btn">All Products</a>
+        <a href="{% url 'sort' %}?sort=phones" class="filter-btn">Mobiles 📱</a>
+        <a href="{% url 'sort' %}?sort=car" class="filter-btn">Vehicles 🚗</a>
+        <a href="{% url 'sort' %}?sort=laptop" class="filter-btn">Laptops 💻</a>
+        <a href="{% url 'sort' %}?sort=house" class="filter-btn">Real Estate 🏠</a>
 
-                    <a href="{% url 'sort' %}?sort=phones" class="filter-btn">Mobiles 📱</a>
-                    <a href="{% url 'sort' %}?sort=car" class="filter-btn">Vehicles 🚗</a>
-                    <a href="{% url 'sort' %}?sort=laptop" class="filter-btn">Laptops 💻</a>
-                    <a href="{% url 'sort' %}?sort=house" class="filter-btn">Real Estate 🏠</a>
+        <hr>
 
-                    <hr>
+        <h6>Price Range</h6>
 
-                    <h6>Price Range</h6>
+        <a href="{% url 'sort' %}?sort=0-999" class="filter-btn">Below ₹1000</a>
+        <a href="{% url 'sort' %}?sort=1000-5000" class="filter-btn">₹1000 - ₹5000</a>
+        <a href="{% url 'sort' %}?sort=5000plus" class="filter-btn">Above ₹5000</a>
 
-                    <a href="{% url 'sort' %}?sort=0-999">Below ₹1000</a>
-                    <a href="{% url 'sort' %}?sort=1000-5000">₹1000 - ₹5000</a>
-                    <a href="{% url 'sort' %}?sort=5000plus">Above ₹5000</a>
+    </div>
 
-                </div>
-            </div>
+    <!-- MAIN -->
+    <div class="main">
 
-            <!-- PRODUCTS -->
-            <div class="col-md-9">
+        <div class="top-bar">
+            <h5>Products</h5>
 
-                <div class="top-bar d-flex justify-content-between align-items-center">
-                    <h5>Products</h5>
-                    <input type="text" class="form-control w-50" placeholder="Search...">
-                    <a href="/userdash" class="bg-blue-500 px-4 py-1 rounded">Back</a>
-                </div>
+            <input type="text" class="form-control search" placeholder="Search...">
 
-                <div class="row g-4">
+            <a href="/userdash" class="btn btn-primary">Back</a>
+        </div>
 
-                    {% if items %}
-                    {% for item in items %}
-                    <div class="col-md-4">
+        <div class="row g-4 mt-3">
 
-                        <div class="product-card">
+            {% if items %}
+            {% for item in items %}
+            <div class="col-md-4">
 
-                            <img src="{{ item.productimg.url }}" alt="img">
+                <div class="product-card">
 
-                            <div class="product-body">
-                                <div class="price">₹{{ item.productprice }}</div>
-                                <div>{{ item.productname }}</div>
+                    <img src="{{ item.productimg.url }}" alt="img">
 
-                                <div class="d-flex justify-content-between mt-3">
+                    <div class="product-body">
+                        <div class="price">₹{{ item.productprice }}</div>
+                        <div>{{ item.productname }}</div>
 
-                                    {% if item.seller_email %}
-                                    <a href="{% url 'chat_page' item.seller_email item.id %}"
-                                        class="btn btn-sm btn-primary">
-                                        Chat with Seller 💬
-                                    </a>
-                                    {% else %}
-                                    <span style="color:red;">Seller not available</span>
-                                    {% endif %}
+                        <div class="d-flex justify-content-between mt-3">
 
-                                    <a href="{% url 'checkout' item.id %}" class="btn btn-sm btn-danger">
-                                        Add to Cart
-                                    </a>
-                                </div>
+                            {% if item.seller_email %}
+                            <a href="{% url 'userchat' item.seller_email item.id %}" class="btn btn-sm btn-primary">
+                                💬 Chat
+                            </a>
+                            {% else %}
+                            <span style="color:red;">No Seller</span>
+                            {% endif %}
 
-                            </div>
+                            <a href="{% url 'checkout' item.id %}" class="btn btn-sm btn-danger">
+                                🛒 Add
+                            </a>
 
                         </div>
 
                     </div>
-                    {% endfor %}
-                    {% else %}
-                    <h3>No Products Found 😢</h3>
-                    {% endif %}
 
                 </div>
 
             </div>
+            {% endfor %}
+            {% else %}
+            <h3>No Products Found 😢</h3>
+            {% endif %}
 
         </div>
+
     </div>
 
 </body>

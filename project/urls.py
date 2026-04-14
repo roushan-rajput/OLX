@@ -54,7 +54,7 @@ urlpatterns = [
     # path('add/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
     # path('cart/', views.get_cart, name='get_cart'),
     # path('cart-page/', views.get_cart, name='cart_page'),
-    path('chat/', views.chat, name='chat'),
+    # path('chat/', views.chat, name='chat'),
     path('buy_now/', views.buy_now, name='buy_now'),
     path('sort/', views.sort, name='sort'),
 
@@ -66,7 +66,7 @@ urlpatterns = [
 
     
     path('checkout/<int:product_id>/', views.checkout, name='checkout'),
-    path('chat/<str:other_user_email>/<int:product_id>/', views.chat_page, name='chat_page'),
+    # path('chat/<str:other_user_email>/<int:product_id>/', views.chat_page, name='chat_page'),
 
     path('confirm-order/', views.confirm_order, name='confirm_order'),
     # for payments
@@ -80,6 +80,7 @@ urlpatterns = [
 
     path('superadmin/',views.superadmin,name='superadmin'), 
     path('userdash/',views.userdash,name='userdash'), 
+    path('userchat/',views.userchat,name='userchat'), 
     path('shkprdash/',views.shkprdash,name='shkprdash'), 
     path('view_sellers/',views.view_sellers,name='view_sellers'), 
     path('view_buyers/',views.view_buyers,name='view_buyers'), 
@@ -87,7 +88,12 @@ urlpatterns = [
     path('toggle_block_user/<int:id>/', views.toggle_block_user, name='toggle_block_user'),
     path('delete_user/<int:id>/', views.delete_user, name='delete_user'),
     
+
+    #chating
+    path("userchat/<str:seller_email>/<int:product_id>/", views.userchat, name="userchat"),
     
+    path("userchatdata/", views.userchatdata, name="userchatdata"),
+    path('chatlist/', views.chat_list, name='chat_list'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,172 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Chat</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seller Chat Panel</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            background: #eef2f7;
-        }
+<style>
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+}
 
-        .main-container {
-            display: flex;
-            height: 95vh;
-        }
+.chat-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    transition: 0.3s;
+}
 
-        .chat-section {
-            width: 65%;
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-            border-radius: 15px;
-            margin: 10px;
-        }
+.chat-card:hover {
+    transform: scale(1.01);
+}
 
-        .chat-header {
-            padding: 15px;
-            background: #2563eb;
-            color: white;
-            border-radius: 15px 15px 0 0;
-        }
+.avatar {
+    width: 45px;
+    height: 45px;
+    background: #38bdf8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
 
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
+.msg-box {
+    max-height: 150px;
+    overflow-y: auto;
+    font-size: 14px;
+    opacity: 0.85;
+}
 
-        .message {
-            max-width: 60%;
-            padding: 10px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-        }
+.input-box {
+    border-radius: 10px;
+    border: none;
+    padding: 8px;
+    width: 100%;
+}
 
-        .sent {
-            background: #2563eb;
-            color: white;
-            align-self: flex-end;
-        }
+.send-btn {
+    background: #22c55e;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 8px;
+    color: white;
+}
 
-        .received {
-            background: #e2e8f0;
-            align-self: flex-start;
-        }
+.send-btn:hover {
+    background: #16a34a;
+}
 
-        .chat-input {
-            display: flex;
-            gap: 10px;
-            padding: 10px;
-            border-top: 1px solid #ddd;
-        }
+.product-box {
+    font-size: 13px;
+    opacity: 0.7;
+}
 
-        .chat-input input {
-            flex: 1;
-            padding: 10px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-        }
+.fade-in {
+    animation: fadeIn 0.6s ease forwards;
+}
 
-        .side-panel {
-            width: 35%;
-            margin: 10px;
-        }
-
-        .card-box {
-            background: white;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-        }
-
-        .product-img {
-            width: 100%;
-            border-radius: 10px;
-        }
-
-        .time {
-            font-size: 10px;
-            opacity: 0.7;
-        }
-    </style>
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(10px);} 
+    to {opacity:1; transform: translateY(0);} 
+}
+</style>
 </head>
 
 <body>
 
-<div class="main-container">
+<div class="container mt-4">
 
-    <!-- CHAT -->
-    <div class="chat-section">
+<h3 class="text-center mb-4">💬 Seller Chat Panel</h3>
 
-        <div class="chat-header">
-            Chat with {{ other_user }}
+{% for chat in chats %}
+{% if chat.user %}
+
+<div class="chat-card p-3 mb-3 fade-in">
+
+    <!-- TOP -->
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex gap-2 align-items-center">
+            <div class="avatar">
+                {{ chat.user|slice:":1"|upper }}
+            </div>
+            <div>
+                <b>{{ chat.user }}</b>
+                <div class="product-box">
+                    Product ID: {{ chat.product_id }}
+                </div>
+            </div>
         </div>
-
-        <div class="chat-messages" id="chatBox">
-
-            {% for msg in messages %}
-                {% if msg.sender == current_user %}
-                    <div class="message sent">
-                        {{ msg.message }}
-                        <div class="time">{{ msg.timestamp }}</div>
-                    </div>
-                {% else %}
-                    <div class="message received">
-                        {{ msg.message }}
-                        <div class="time">{{ msg.timestamp }}</div>
-                    </div>
-                {% endif %}
-            {% empty %}
-                <p>No messages yet</p>
-            {% endfor %}
-
-        </div>
-
-        <form method="POST" class="chat-input">
-            {% csrf_token %}
-            <input type="text" name="message" placeholder="Type message..." required>
-            <button class="btn btn-primary">Send</button>
-        </form>
-
     </div>
 
-    <!-- SIDE -->
-    <div class="side-panel">
-
-        <div class="card-box">
-            <h5>📦 Product</h5>
-            <img src="{{ product.productimg.url }}" class="product-img">
-            <p><b>{{ product.productname }}</b></p>
-            <p>₹{{ product.productprice }}</p>
-        </div>
-
-        <div class="card-box">
-            <h5>👤 User</h5>
-
-            {% if other_user_data %}
-                <p>{{ other_user_data.name }}</p>
-                <p>{{ other_user_data.email }}</p>
-                <p>{{ other_user_data.city }}</p>
-                <p>{{ other_user_data.contact }}</p>
-            {% endif %}
-
-        </div>
-
+    <!-- LAST MESSAGE -->
+    <div class="msg-box mt-2 mb-2">
+        📨 {{ chat.last_msg }}
     </div>
+
+    <!-- INPUT + SEND -->
+    <form method="POST" action="/userchatdata/" class="d-flex gap-2">
+        {% csrf_token %}
+
+        <input type="hidden" name="receiver" value="{{ chat.user }}">
+        <input type="hidden" name="product_id" value="{{ chat.product_id }}">
+
+        <input type="text" name="message" placeholder="Type reply..." class="input-box" required>
+
+        <button type="submit" class="send-btn">Send</button>
+    </form>
 
 </div>
 
-<script>
-    // auto scroll
-    const chatBox = document.getElementById("chatBox");
-    chatBox.scrollTop = chatBox.scrollHeight;
+{% endif %}
+{% endfor %}
 
-  
+</div>
+
+
+
+<script>
+// Show alert after sending message
+const forms = document.querySelectorAll("form");
+forms.forEach(form => {
+    form.addEventListener("submit", function(e){
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch(this.action, {
+            method: "POST",
+            body: formData,
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            showAlert("✅ Message Sent Successfully");
+            form.reset();
+        })
+        .catch(err => {
+            showAlert("❌ Error sending message");
+        });
+    });
+});
+
+function showAlert(msg){
+    let alertBox = document.createElement("div");
+    alertBox.innerText = msg;
+    alertBox.style.position = "fixed";
+    alertBox.style.top = "20px";
+    alertBox.style.right = "20px";
+    alertBox.style.background = "#22c55e";
+    alertBox.style.padding = "10px 20px";
+    alertBox.style.borderRadius = "10px";
+    alertBox.style.boxShadow = "0 5px 15px rgba(0,0,0,0.3)";
+    alertBox.style.zIndex = "9999";
+    alertBox.style.fontWeight = "bold";
+
+    document.body.appendChild(alertBox);
+
+    setTimeout(()=>{
+        alertBox.remove();
+    }, 2000);
+}
 </script>
 
 </body>

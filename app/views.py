@@ -7,6 +7,8 @@ from django.conf import settings
 import razorpay
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
+
 
   
 
@@ -294,8 +296,8 @@ def logout(req):
 def buy_now(request):
     return render(request, 'product.html')
 
-def chat(request):
-    return render(request, 'product.html')
+# def chat(request):
+#     return render(request, 'userchat.html')
 
 # def cuschats(request):
 #     return render(request, 'cuschats.html')
@@ -329,99 +331,191 @@ def sort(request):
 
     return render(request, 'product.html', {'items': products})
 
-def chat_page(request, other_user_email, product_id):
 
-    # ✅ Check login
-    current_user = request.session.get('email')
-    if not current_user:
-        return redirect('login')
 
-    # ✅ Get product
-    product = get_object_or_404(Product, id=product_id)
+def userchat(request, seller_email, product_id):
+    sender = request.session.get("email")
 
-    # ✅ Allow only seller OR buyer
-    if current_user != product.seller_email and current_user != other_user_email:
-        return redirect('login')  # or show error page
+    if sender == seller_email:
+        last = Message.objects.filter(product_id=product_id).last()
+        other_user = last.sender if last else ""
+    else:
+        other_user = seller_email
 
-    # ✅ Get other user data
-    other_user = Customer.objects.filter(email=other_user_email).first()
+    product = Product.objects.get(id=product_id)
 
-    # =========================                     
-    # ✅ SAVE MESSAGE
-    # =========================
+    return render(request, "userchat.html", {
+        "other_user": other_user,
+        "product": product
+    })
+
+def userchatdata(request):
+    sender = request.session.get("email")
+
+    if not sender:
+        return JsonResponse({"error": "User not logged in"})
+
+    # ✅ SEND MESSAGE
     if request.method == "POST":
-        msg = request.POST.get('message')
+        message = request.POST.get("message")
+        receiver = request.POST.get("receiver")
+        product_id = request.POST.get("product_id")
 
-        if msg and msg.strip():
+        if message and receiver and product_id:
             Message.objects.create(
-                sender=current_user,
-                receiver=other_user_email,
-                message=msg.strip(),
-                product=product   # 🔥 better FK instead of product_id
+                sender=sender,
+                receiver=receiver,
+                message=message,
+                product_id=int(product_id)   # 🔥 IMPORTANT
             )
+            return JsonResponse({"status": "sent"})
 
-        return redirect('chat_page', other_user_email=other_user_email, product_id=product.id)
+        return JsonResponse({"status": "failed"})
+
+    # ✅ FETCH MESSAGE
+    receiver = request.GET.get("receiver")
+    product_id = request.GET.get("product_id")
+
+    if not receiver or not product_id:
+        return JsonResponse({"messages": []})
+
+    messages = Message.objects.filter(
+        product_id=int(product_id),   # 🔥 IMPORTANT
+        sender__in=[sender, receiver],
+        receiver__in=[sender, receiver]
+    ).order_by("timestamp")
+
+    data = []
+    for m in messages:
+        data.append({
+            "sender": m.sender,
+            "receiver": m.receiver,
+            "message": m.message
+        })
+
+    return JsonResponse({"messages": data})
+
+
+
+def chat_list(request):
+    current_user = request.session.get("email")
+
+    messages = Message.objects.filter(
+        Q(sender=current_user) | Q(receiver=current_user)
+    ).order_by("-timestamp")
+
+    unique_chats = {}
+
+    for msg in messages:
+        # identify other user
+        if msg.sender == current_user:
+            other_user = msg.receiver
+        else:
+            other_user = msg.sender
+
+        key = f"{other_user}_{msg.product_id}"
+
+        if key not in unique_chats:
+            unique_chats[key] = {
+                "user": other_user,
+                "product_id": msg.product_id,
+                "last_msg": msg.message
+            }
+
+    return render(request, "chat_list.html", {"chats": unique_chats.values()})
+# def chat_page(request, other_user_email, product_id):
+
+#     # ✅ Check login
+#     current_user = request.session.get('email')
+#     if not current_user:
+#         return redirect('login')
+
+#     # ✅ Get product
+#     product = get_object_or_404(Product, id=product_id)
+
+#     # ✅ Allow only seller OR buyer
+#     if current_user != product.seller_email and current_user != other_user_email:
+#         return redirect('login')  # or show error page
+
+#     # ✅ Get other user data
+#     other_user = Customer.objects.filter(email=other_user_email).first()
+
+#     # =========================                     
+#     # ✅ SAVE MESSAGE
+#     # =========================
+#     if request.method == "POST":
+#         msg = request.POST.get('message')
+
+#         if msg and msg.strip():
+#             Message.objects.create(
+#                 sender=current_user,
+#                 receiver=other_user_email,
+#                 message=msg.strip(),
+#                 product=product   # 🔥 better FK instead of product_id
+#             )
+
+#         return redirect('chat_page', other_user_email=other_user_email, product_id=product.id)
     
-    # =========================
-    # ✅ FETCH MESSAGES
-    # =========================
-    messages = Message.objects.filter(
-        product=product,
-        sender__in=[current_user, other_user_email],
-        receiver__in=[current_user, other_user_email]
-    ).order_by('timestamp')
+#     # =========================
+#     # ✅ FETCH MESSAGES
+#     # =========================
+#     messages = Message.objects.filter(
+#         product=product,
+#         sender__in=[current_user, other_user_email],
+#         receiver__in=[current_user, other_user_email]
+#     ).order_by('timestamp')
 
-    # =========================
-    # ✅ RENDER
-    # =========================
-    return render(request, 'chat.html', {
-        'messages': messages,
-        'product': product,
-        'other_user': other_user,
-        'current_user': current_user
-    })
+#     # =========================
+#     # ✅ RENDER
+#     # =========================
+#     return render(request, 'chat.html', {
+#         'messages': messages,
+#         'product': product,
+#         'other_user': other_user,
+#         'current_user': current_user
+#     })
 
 
-def chat_list(request, other_user, product_id):
-    current_user = request.session.get('email')
+# def chat_list(request, other_user, product_id):
+#     current_user = request.session.get('email')
 
-    # अगर login नहीं
-    if not current_user:
-        return redirect('login')
+#     # अगर login नहीं
+#     if not current_user:
+#         return redirect('login')
 
-    product = get_object_or_404(Product, id=product_id)
+#     product = get_object_or_404(Product, id=product_id)
 
-    # दूसरे user की details
-    other_user_data = Customer.objects.filter(email=other_user).first()
+#     # दूसरे user की details
+#     other_user_data = Customer.objects.filter(email=other_user).first()
 
-    # 🔥 MESSAGE SAVE
-    if request.method == "POST":
-        msg = request.POST.get('message')
+#     # 🔥 MESSAGE SAVE
+#     if request.method == "POST":
+#         msg = request.POST.get('message')
 
-        if msg and msg.strip() != "":
-            Message.objects.create(
-                sender=current_user,
-                receiver=other_user,
-                message=msg,
-                product_id=product_id
-            )
+#         if msg and msg.strip() != "":
+#             Message.objects.create(
+#                 sender=current_user,
+#                 receiver=other_user,
+#                 message=msg,
+#                 product_id=product_id
+#             )
 
-        return redirect('chat_page', other_user=other_user, product_id=product_id)
+#         return redirect('chat_page', other_user=other_user, product_id=product_id)
 
-    # 🔥 FETCH MESSAGES (MAIN FIX)
-    messages = Message.objects.filter(
-        product_id=product_id,
-        sender__in=[current_user, other_user],
-        receiver__in=[current_user, other_user]
-    ).order_by('timestamp')
+#     # 🔥 FETCH MESSAGES (MAIN FIX)
+#     messages = Message.objects.filter(
+#         product_id=product_id,
+#         sender__in=[current_user, other_user],
+#         receiver__in=[current_user, other_user]
+#     ).order_by('timestamp')
 
-    return render(request, 'chat.html', {
-        'messages': messages,
-        'other_user': other_user,
-        'product': product,
-        'other_user_data': other_user_data,
-        'current_user': current_user   # 🔥 IMPORTANT
-    })
+#     return render(request, 'chat.html', {
+#         'messages': messages,
+#         'other_user': other_user,
+#         'product': product,
+#         'other_user_data': other_user_data,
+#         'current_user': current_user   # 🔥 IMPORTANT
+#     })
 
 def userprofile(req):
     # 🔐 Check if user logged in
