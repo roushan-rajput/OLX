@@ -1,114 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>User Profile</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
 
-        .profile-card {
-            background: #fff;
-            width: 400px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            padding: 30px;
-            text-align: center;
-        }
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
 
-        .profile-card img {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #667eea;
-            margin-bottom: 15px;
-        }
+.card {
+    width: 420px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    text-align: center;
+}
 
-        .profile-card h2 {
-            margin: 10px 0;
-            color: #333;
-        }
+.profile-img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 3px solid #38bdf8;
+    margin-bottom: 15px;
+}
 
-        .profile-card p {
-            color: #666;
-            margin: 5px 0;
-        }
+.name {
+    font-size: 22px;
+    font-weight: 600;
+}
 
-        .info-box {
-            text-align: left;
-            margin-top: 20px;
-        }
+.role {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
 
-        .info-box p {
-            background: #f4f6ff;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 8px 0;
-        }
+.info {
+    text-align: left;
+    margin-top: 20px;
+}
 
-        .btn-group {
-            margin-top: 20px;
-        }
+.info div {
+    background: rgba(255,255,255,0.05);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
 
-        .btn {
-            text-decoration: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            margin: 5px;
-            display: inline-block;
-            font-size: 14px;
-            transition: 0.3s;
-        }
+.info strong {
+    color: #38bdf8;
+}
 
-        .edit-btn {
-            background: #667eea;
-            color: white;
-        }
+.actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
 
-        .logout-btn {
-            background: #ff4d4d;
-            color: white;
-        }
+.btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
 
-        .btn:hover {
-            opacity: 0.85;
-        }
-    </style>
+.edit {
+    background: #38bdf8;
+    color: #000;
+}
+
+.logout {
+    background: #ef4444;
+    color: #fff;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+</style>
 </head>
 <body>
 
-<div class="profile-card">
+<div class="card">
 
-    <!-- Profile Image (static for now) -->
-    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="profile">
+    <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="profile">
 
-    <h2>{{ user.name }}</h2>
-    <p>{{ user.role|title }}</p>
+    <div class="name">{{ user.name }}</div>
+    <div class="role">{{ user.role|title }}</div>
 
-    <div class="info-box">
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Phone:</strong> {{ user.contact }}</p>
-        <p><strong>Address:</strong> {{ user.city }}</p>
-        <p><strong>Your Password:</strong> {{ user.password }}</p>
+    <div class="info">
+        <div><strong>Email:</strong> {{ user.email }}</div>
+        <div><strong>Phone:</strong> {{ user.contact }}</div>
+        <div><strong>City:</strong> {{ user.city }}</div>
+        <div><strong>Password:</strong> {{ user.password }}</div>
     </div>
 
-    <div class="btn-group">
-        <a href="/edit_profile/" class="btn edit-btn">Edit Profile</a>
-        <a href="/logout_view/" class="btn logout-btn">Logout</a>
+    <div class="actions">
+        <a href="/edit_profile/" class="btn edit">Edit</a>
+        <a href="/logout_view/" class="btn logout">Logout</a>
     </div>
 
 </div>
+
 </body>
 </html>
