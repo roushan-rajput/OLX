@@ -217,7 +217,8 @@ def Register(request):
 def add_product(request):
     return render(request, 'add_product.html')
 
-def add_pro(req):                                        #For Add the Product 
+def add_pro(req):  # For Add the Product
+
     if req.method == 'POST':
         pn = req.POST.get('productname')
         pp = req.POST.get('productprice')
@@ -225,17 +226,26 @@ def add_pro(req):                                        #For Add the Product
         pr = req.POST.get('productreason')
         pim = req.FILES.get('productimg')
 
-        Product.objects.create(
-        productname=pn,
-        productprice=pp,
-        productissue=pi,
-        productreason=pr,
-        productimg=pim,
+        seller_email = req.session.get('email')   
 
-        seller_email=req.session.get('email')
+        Product.objects.create(
+            productname=pn,
+            productprice=pp,
+            productissue=pi,
+            productreason=pr,
+            productimg=pim,
+            seller_email=seller_email
         )
-        print(pn,pp,pi,pr,pim,)
-        # return render(req, 'allproduct.html')
+
+        print(pn, pp, pi, pr, pim)
+
+        send_mail(
+            'Product Added Successfully',
+            f'Your product "{pn}" has been added successfully on OLX Pro.',
+            'roushanrajput12362@gmail.com',
+            [seller_email]   # <-- yaha change kiya (main fix)
+        )
+
     items = Product.objects.all().order_by('-id')
     return render(req, 'allproduct.html', {'items': items})
 
