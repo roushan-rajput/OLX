@@ -1,271 +1,286 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>OLX Pro - Landing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLX Pro Final</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: white;
+            background: #0b0f1a;
+            color: #fff;
+            overflow-x: hidden
         }
 
         .navbar {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, .6);
+            backdrop-filter: blur(10px)
         }
 
         .hero {
-            padding: 120px 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            animation: fadeIn 1.5s ease;
+            background: #000
         }
 
         .hero h1 {
-            font-size: 55px;
-            animation: float 3s infinite;
-        }
-
-        .btn-main {
-            background: linear-gradient(135deg, #ff7a18, #ffb347);
-            border-radius: 30px;
-            padding: 12px 30px;
-            transition: .3s;
-        }
-
-        .btn-main:hover {
-            transform: scale(1.15);
-            box-shadow: 0 0 20px #ff7a18;
-        }
-
-        .card-custom {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            transition: .4s;
-        }
-
-        .card-custom:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .icon {
-            font-size: 40px;
-            animation: bounce 2s infinite;
+            font-size: 60px
         }
 
         .section {
-            padding: 80px 0;
+            padding: 70px 0
         }
 
-        .cta {
-            background: linear-gradient(135deg, #ff7a18, #ffb347);
-            padding: 60px;
-            border-radius: 20px;
+        .card-custom {
+            background: #111827;
+            border-radius: 12px;
             text-align: center;
-            animation: glow 2s infinite alternate;
+            transition: all .4s ease;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            cursor: pointer;
         }
 
-        footer {
-            background: #000;
-            padding: 20px;
+        .card-custom:hover {
+            transform: translateY(-10px) scale(1.05) rotateX(3deg) rotateY(3deg);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+        .card-custom:hover {
+            transform: translateY(-8px)
         }
 
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
+        .card-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover
         }
 
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
+        .btn-main {
+            background: #ff4b2b;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px
         }
 
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 10px #ff7a18;
-            }
+        .btn-outline-light:hover {
+            background: #ff4b2b;
+            border-color: #ff4b2b;
+            color: #fff;
+        }
 
-            to {
-                box-shadow: 0 0 30px #ffb347;
-            }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2
         }
     </style>
 </head>
 
 <body>
 
+    <canvas id="bgCanvas"></canvas>
+
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg p-3">
+    <nav class="navbar p-3">
         <div class="container">
-            <a class="navbar-brand text-white fw-bold" href="#">OLX Pro</a>
-            <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+            <h4>OLX Pro</h4>
+            <a href="{% url 'login' %}" class="btn btn-outline-light px-4 fw-semibold">
+                <i class="bi bi-person-circle me-1"></i> Login
+            </a>
         </div>
     </nav>
 
     <!-- HERO -->
     <section class="hero">
-        <div class="container">
-            <h1>Buy & Sell Anything Near You 🚀</h1>
-            <p class="mt-3">India's Most Trusted Marketplace Platform</p>
-            <a href="/products/" class="btn btn-main mt-3">Browse Products</a>
+        <div class="hero-content">
+            <h1 id="typing"></h1>
+            <p>Buy & Sell with Confidence</p>
+            <a href="/products/" class="btn btn-main mt-3">Explore</a>
         </div>
     </section>
 
     <!-- CATEGORIES -->
+    <section class="section text-center">
+        <div class="container">
+            <h2 class="mb-5">Categories</h2>
+            <div class="row g-4">
+
+                <div class="col-md-3">
+                    <div class="card-custom"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"
+                            class="card-img">
+                        <div class="p-2">Mobiles</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-custom"><img src="https://images.unsplash.com/photo-1502877338535-766e1452684a"
+                            class="card-img">
+                        <div class="p-2">Cars</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-custom"><img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae"
+                            class="card-img">
+                        <div class="p-2">Property</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-custom"><img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853"
+                            class="card-img">
+                        <div class="p-2">Electronics</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
     <section class="section">
         <div class="container">
-            <h2 class="text-center mb-5">Categories</h2>
+            <h2 class="text-center mb-5">Trending Products</h2>
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <div class="card-custom"><img src="https://images.unsplash.com/photo-1512499617640-c2f999098c01"
+                            class="card-img">
+                        <div class="p-2">iPhone</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom"><img src="https://images.unsplash.com/photo-1502877338535-766e1452684a"
+                            class="card-img">
+                        <div class="p-2">Car</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom"><img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8"
+                            class="card-img">
+                        <div class="p-2">Laptop</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section class="section text-center">
+        <div class="container">
+            <h2>Quick Demo</h2>
+            <div class="ratio ratio-16x9 mt-3">
+                <iframe src="https://www.youtube.com/embed/vg5KB3hPmp8" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section text-center">
+        <div class="container">
+            <h2 class="mb-5">What Users Say</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card-custom p-3">
+                        <p>"Sold my phone in 1 day!"</p><small>- Rahul</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom p-3">
+                        <p>"Very easy to use"</p><small>- Aman</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom p-3">
+                        <p>"Great platform"</p><small>- Priya</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="section text-center">
+        <div class="container">
             <div class="row g-4">
                 <div class="col-md-3">
-                    <div class="card-custom text-center"><i class="bi bi-phone icon"></i>
-                        <h6>Mobiles</h6>
-                    </div>
+                    <h3>1M+</h3>
+                    <p>Users</p>
                 </div>
                 <div class="col-md-3">
-                    <div class="card-custom text-center"><i class="bi bi-car-front icon"></i>
-                        <h6>Vehicles</h6>
-                    </div>
+                    <h3>50K+</h3>
+                    <p>Products</p>
                 </div>
                 <div class="col-md-3">
-                    <div class="card-custom text-center"><i class="bi bi-house icon"></i>
-                        <h6>Real Estate</h6>
-                    </div>
+                    <h3>10K+</h3>
+                    <p>Daily Deals</p>
                 </div>
                 <div class="col-md-3">
-                    <div class="card-custom text-center"><i class="bi bi-laptop icon"></i>
-                        <h6>Laptops</h6>
-                    </div>
+                    <h3>4.8⭐</h3>
+                    <p>Rating</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="section">
-        <div class="container text-center">
-            <h2>About Us</h2>
-            <p class="mt-3 text-gray-300">OLX Pro is India's fastest growing marketplace where millions of users buy and
-                sell products daily with trust and security.</p>
-        </div>
-    </section>
-
-    <!-- SUCCESS STORY -->
-    <section class="section">
-        <div class="container">
-            <h2 class="text-center mb-5">Success Stories</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card-custom">
-                        <p>"I sold my phone within 2 hours!"</p>
-                        <h6>- Rahul</h6>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-custom">
-                        <p>"Best platform for small businesses"</p>
-                        <h6>- Aman</h6>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-custom">
-                        <p>"Amazing experience buying laptop"</p>
-                        <h6>- Priya</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- WHY TRUST US -->
-    <section class="section text-center">
-        <div class="container">
-            <h2>Why Trust Us?</h2>
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <div class="card-custom"><i class="bi bi-shield-check icon"></i>
-                        <h5>Secure</h5>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-custom"><i class="bi bi-patch-check icon"></i>
-                        <h5>Verified Users</h5>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-custom"><i class="bi bi-clock icon"></i>
-                        <h5>Fast Deals</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- VIDEO SECTION -->
-    <section class="section text-center">
-        <div class="container">
-            <h2>Watch How It Works</h2>
-            <div class="mt-4">
-                <iframe width="80%" height="400" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video"
-                    frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section text-center">
-        <div class="container">
-            <h2>Customer Support</h2>
-            <p class="mt-3">📞 +91 9876543210</p>
-            <p>📧 support@olxpro.com</p>
         </div>
     </section>
 
     <!-- CTA -->
-    <div class="container my-5">
-        <div class="cta">
-            <h3>Start Selling Today 🚀</h3>
-            <p>Join thousands of sellers</p>
-            <a href="{% url 'login' %}" class="btn btn-dark mt-2">Post Your Add</a>
+    <section class="section text-center">
+        <div class="container">
+            <div class="p-5" style="background:#111827;border-radius:15px">
+                <h3>Start Selling Today 🚀</h3>
+                <p>Post your ad & reach thousands instantly</p>
+                <a href="{% url 'login' %}" class="btn btn-main">Post Ad</a>
+            </div>
         </div>
-    </div>
+    </section>
 
     <!-- FOOTER -->
-    <footer class="text-center">
-        <p>© 2026 OLX Pro</p>
+    <footer class="text-center p-3">
+        © 2026 OLX Pro | All Rights Reserved
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Typing
+        const text = "Buy. Sell. Instantly.";
+        let i = 0;
+        function typing() { if (i < text.length) { document.getElementById("typing").innerHTML += text.charAt(i); i++; setTimeout(typing, 70); } }
+        typing();
+
+        // Canvas
+        const canvas = document.getElementById("bgCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+        for (let i = 0; i < 80; i++) { particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 }) }
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = "#ff4b2b"; particles.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); p.y += 0.5; if (p.y > canvas.height) p.y = 0 }); requestAnimationFrame(animate) }
+        animate();
+
+        // Scroll
+        window.addEventListener("scroll", () => {
+            document.querySelectorAll('.card-custom').forEach(el => {
+                let pos = el.getBoundingClientRect().top;
+                if (pos < window.innerHeight - 100) { el.style.opacity = 1; el.style.transform = 'translateY(0)' }
+            })
+        })
+    </script>
 
 </body>
 

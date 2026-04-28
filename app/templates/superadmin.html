@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Superadmin Dashboard</title>
@@ -9,135 +10,144 @@
         .fade-in {
             animation: fadeIn 1s ease forwards;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px);} 
-            to { opacity: 1; transform: translateY(0);} 
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hover-card:hover {
             transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         .glow:hover {
-            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
     </style>
 </head>
 
 <body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
 
-<!-- Navbar -->
-<nav class="bg-black/50 backdrop-blur-lg p-4 flex justify-between items-center shadow-lg sticky top-0 z-50">
-    <h1 class="text-2xl font-bold">⚡ Super Admin Panel</h1>
-    <div class="space-x-6">
-    
-        <a href="#" class="hover:text-yellow-400">Dashboard</a>
-        <a href="/view_sellers" class="hover:text-yellow-400">Sellers</a>
-        <a href="/view_buyers" class="hover:text-yellow-400">Buyers</a>
-        <a href="/view_products" class="hover:text-yellow-400">Products</a>
-        <a href="/logout" class="bg-red-500 px-4 py-1 rounded-lg">Logout</a>
+    <!-- Navbar -->
+    <nav class="bg-black/50 backdrop-blur-lg p-4 flex justify-between items-center shadow-lg sticky top-0 z-50">
+        <h1 class="text-2xl font-bold">⚡ Super Admin Panel</h1>
+        <div class="space-x-6">
+
+            <a href="#" class="hover:text-yellow-400">Dashboard</a>
+            <a href="/view_sellers" class="hover:text-yellow-400">Sellers</a>
+            <a href="/view_buyers" class="hover:text-yellow-400">Buyers</a>
+            <a href="/view_products" class="hover:text-yellow-400">Products</a>
+            <a href="/logout" class="bg-red-500 px-4 py-1 rounded-lg">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="text-center py-12 fade-in">
+        <h2 class="text-5xl font-extrabold mb-4">Welcome Superadmin 🚀</h2>
+        <p class="text-gray-300 text-lg">Complete control over your OLX-like marketplace</p>
     </div>
-</nav>
 
-<!-- Hero Section -->
-<div class="text-center py-12 fade-in">
-    <h2 class="text-5xl font-extrabold mb-4">Welcome Superadmin 🚀</h2>
-    <p class="text-gray-300 text-lg">Complete control over your OLX-like marketplace</p>
-</div>
+    <!-- Cards Section -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-10">
 
-<!-- Cards Section -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-10">
+        <a href="/view_sellers" class="block hover-card fade-in bg-white/10 p-6 rounded-2xl">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-16 mb-4">
+            <h3 class="text-xl font-bold">Sellers</h3>
+            <p class="text-gray-300 mb-4">Manage sellers</p>
+            <span class="bg-blue-500 px-4 py-2 rounded glow inline-block">View</span>
+        </a>
 
-    <a href="/view_sellers" class="block hover-card fade-in bg-white/10 p-6 rounded-2xl">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-16 mb-4">
-        <h3 class="text-xl font-bold">Sellers</h3>
-        <p class="text-gray-300 mb-4">Manage sellers</p>
-        <span class="bg-blue-500 px-4 py-2 rounded glow inline-block">View</span>
-    </a>
+        <a href="/view_buyers" class="block hover-card fade-in bg-white/10 p-6 rounded-2xl">
+            <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" class="w-16 mb-4">
+            <h3 class="text-xl font-bold">Buyers</h3>
+            <p class="text-gray-300 mb-4">Manage buyers</p>
+            <span class="bg-green-500 px-4 py-2 rounded glow inline-block">View</span>
+        </a>
 
-    <a href="/view_buyers" class="block hover-card fade-in bg-white/10 p-6 rounded-2xl">
-        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" class="w-16 mb-4">
-        <h3 class="text-xl font-bold">Buyers</h3>
-        <p class="text-gray-300 mb-4">Manage buyers</p>
-        <span class="bg-green-500 px-4 py-2 rounded glow inline-block">View</span>
-    </a>
+        <a href="/view_products" class="block hover-card fade-in bg-white/10 p-6 rounded-2xl">
+            <img src="https://cdn-icons-png.flaticon.com/512/891/891462.png" class="w-16 mb-4">
+            <h3 class="text-xl font-bold">Products</h3>
+            <p class="text-gray-300 mb-4">Control listings</p>
+            <span class="bg-purple-500 px-4 py-2 rounded glow inline-block">View</span>
+        </a>
 
-    <a href="/view_products" class="block hover-card fade-in bg-white/10 p-6 rounded-2xl">
-        <img src="https://cdn-icons-png.flaticon.com/512/891/891462.png" class="w-16 mb-4">
-        <h3 class="text-xl font-bold">Products</h3>
-        <p class="text-gray-300 mb-4">Control listings</p>
-        <span class="bg-purple-500 px-4 py-2 rounded glow inline-block">View</span>
-    </a>
-
-</div>
-
-<!-- Stats Section -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 p-10">
-    <div class="bg-blue-600 p-6 rounded-2xl text-center fade-in">
-        <h3 class="text-3xl font-bold">120+</h3>
-        <p>Sellers</p>
     </div>
-    <div class="bg-green-600 p-6 rounded-2xl text-center fade-in">
-        <h3 class="text-3xl font-bold">300+</h3>
-        <p>Buyers</p>
-    </div>
-    <div class="bg-purple-600 p-6 rounded-2xl text-center fade-in">
-        <h3 class="text-3xl font-bold">850+</h3>
-        <p>Products</p>
-    </div>
-    <div class="bg-yellow-500 p-6 rounded-2xl text-center fade-in">
-        <h3 class="text-3xl font-bold">₹50K+</h3>
-        <p>Revenue</p>
-    </div>
-</div>
 
-<!-- Recent Activity Section -->
-<div class="p-10">
-    <h2 class="text-2xl font-bold mb-6">Recent Activity</h2>
-    <div class="bg-white/10 rounded-2xl p-6 space-y-4">
-        <p>🟢 New seller registered</p>
-        <p>🟡 Product listed: iPhone 13</p>
-        <p>🔴 Buyer reported an item</p>
-        <p>🟢 New order placed</p>
+    <!-- Stats Section -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 p-10">
+        <div class="bg-blue-600 p-6 rounded-2xl text-center fade-in">
+            <h3 class="text-3xl font-bold">120+</h3>
+            <p>Sellers</p>
+        </div>
+        <div class="bg-green-600 p-6 rounded-2xl text-center fade-in">
+            <h3 class="text-3xl font-bold">300+</h3>
+            <p>Buyers</p>
+        </div>
+        <div class="bg-purple-600 p-6 rounded-2xl text-center fade-in">
+            <h3 class="text-3xl font-bold">850+</h3>
+            <p>Products</p>
+        </div>
+        <div class="bg-yellow-500 p-6 rounded-2xl text-center fade-in">
+            <h3 class="text-3xl font-bold">₹50K+</h3>
+            <p>Revenue</p>
+        </div>
     </div>
-</div>
 
-<!-- Table Section -->
-<div class="p-10">
-    <h2 class="text-2xl font-bold mb-6">Latest Users</h2>
-    <div class="overflow-x-auto">
-        <table class="w-full bg-white/10 rounded-2xl">
-            <thead>
-                <tr class="bg-gray-700">
-                    <th class="p-3">Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="text-center">
-                    <td class="p-3">Rahul</td>
-                    <td>rahul@gmail.com</td>
-                    <td>Seller</td>
-                    <td class="text-green-400">Active</td>
-                </tr>
-                <tr class="text-center">
-                    <td class="p-3">Aman</td>
-                    <td>aman@gmail.com</td>
-                    <td>Buyer</td>
-                    <td class="text-green-400">Active</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- Recent Activity Section -->
+    <div class="p-10">
+        <h2 class="text-2xl font-bold mb-6">Recent Activity</h2>
+        <div class="bg-white/10 rounded-2xl p-6 space-y-4">
+            <p>🟢 New seller registered</p>
+            <p>🟡 Product listed: iPhone 13</p>
+            <p>🔴 Buyer reported an item</p>
+            <p>🟢 New order placed</p>
+        </div>
     </div>
-</div>
 
-<!-- Footer -->
-<div class="text-center text-gray-400 pb-6">
-    © 2026 Superadmin Panel | Full Control System
-</div>
+    <!-- Table Section -->
+    <div class="p-10">
+        <h2 class="text-2xl font-bold mb-6">Latest Users</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full bg-white/10 rounded-2xl">
+                <thead>
+                    <tr class="bg-gray-700">
+                        <th class="p-3">Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center">
+                        <td class="p-3">Rahul</td>
+                        <td>rahul@gmail.com</td>
+                        <td>Seller</td>
+                        <td class="text-green-400">Active</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td class="p-3">Aman</td>
+                        <td>aman@gmail.com</td>
+                        <td>Buyer</td>
+                        <td class="text-green-400">Active</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-gray-400 pb-6">
+        © 2026 Superadmin Panel | Full Control System
+    </div>
 
 </body>
+
 </html>

@@ -87,7 +87,7 @@ def reg_data(req):
                 # ✅ session set karo (IMPORTANT)
                 req.session['email'] = new_user.email
 
-                return render(req, 'register.html', {
+                return render(req, 'login.html', {
                     'msg': 'Registered Successfully',
                     'customer': new_user
                 })
