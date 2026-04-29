@@ -278,6 +278,7 @@ def edit_product(request, pk):
     return render(request, 'add_product.html', {'data': product})
 
 def update_product(request, pk):
+    seller_email = request.session.get('email')
     product = get_object_or_404(Product, id=pk)
 
     if request.method == "POST":
@@ -291,6 +292,12 @@ def update_product(request, pk):
             product.productimg = request.FILES.get('productimg')
             
         product.save()
+        send_mail(
+        'Product Updated Successfully',
+        f'Your product "{product.productname}" has been Updated successfully from OLX Pro.',
+        'roushanrajput12362@gmail.com',
+        [seller_email]
+    )
         return redirect('allproduct')
     
 def delete_product(request, pk):
