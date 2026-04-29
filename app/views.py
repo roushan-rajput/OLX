@@ -263,6 +263,18 @@ def allproduct(request):
 
 def edit_product(request, pk):
     product = get_object_or_404(Product, id=pk)
+    if request.method == "POST":
+        product.productname = request.POST.get('productname')
+        product.productprice = request.POST.get('productprice')
+        product.productissue = request.POST.get('productissue')
+        product.productreason = request.POST.get('productreason')
+
+        # Image update (optional)
+        if request.FILES.get('productimg'):
+            product.productimg = request.FILES.get('productimg')
+            
+        product.save()
+    
     return render(request, 'add_product.html', {'data': product})
 
 def update_product(request, pk):
@@ -277,14 +289,25 @@ def update_product(request, pk):
         # Image update (optional)
         if request.FILES.get('productimg'):
             product.productimg = request.FILES.get('productimg')
-
+            
         product.save()
         return redirect('allproduct')
     
 def delete_product(request, pk):
+    seller_email = request.session.get('email')
     product = get_object_or_404(Product, id=pk)
+
+    # Send mail before deleting
+    send_mail(
+        'Product Deleted Successfully',
+        f'Your product "{product.productname}" has been deleted successfully from OLX Pro.',
+        'roushanrajput12362@gmail.com',
+        [seller_email]
+    )
+
     product.delete()
-    return redirect('view_products')
+
+    return redirect('allproduct')
 
 def view_products(request):
     return redirect(request,'view_products.html')
