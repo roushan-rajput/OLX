@@ -307,7 +307,7 @@ def delete_product(request, pk):
     # Send mail before deleting
     send_mail(
         'Product Deleted Successfully',
-        f'Your product "{product.productname}" has been deleted successfully from OLX Pro.',
+        f'Your product "{product.productname}" has been Deleted successfully from OLX Pro.',
         'roushanrajput12362@gmail.com',
         [seller_email]
     )
